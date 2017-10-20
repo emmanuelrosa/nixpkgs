@@ -19449,6 +19449,11 @@ with pkgs;
     inherit (gnome2) GConf libgnomeui gnome_vfs;
   };
 
+  upwork = callPackage ../applications/networking/instant-messengers/upwork { 
+    gtkglext = gnome2.gtkglext;
+    gconf = gnome2.GConf;
+  };
+
   urbit = callPackage ../misc/urbit { };
 
   utf8proc = callPackage ../development/libraries/utf8proc { };

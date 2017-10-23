@@ -47,8 +47,8 @@ in with builtins.getAttr builtins.currentSystem platform; stdenv.mkDerivation {
   postFixup = ''
     patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/share/upwork/upwork
     patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/share/upwork/chrome-sandbox
-    patchelf --set-rpath $out/share/upwork:$libs/lib $out/share/upwork/upwork
-    patchelf --set-rpath $out/share/upwork:$libs/lib $out/share/upwork/libcef.so
+    patchelf --set-rpath $libs/lib:$out/share/upwork $out/share/upwork/upwork
+    patchelf --set-rpath $libs/lib:$out/share/upwork $out/share/upwork/libcef.so
 
     function soCheck {
         echo "Checking $1 for missing linked libraries..."

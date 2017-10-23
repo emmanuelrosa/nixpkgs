@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, dpkg, makeWrapper,
+{ stdenv, fetchurl, dpkg, makeWrapper, buildEnv,
   gtk2, atk, glib, cairo, pango, gdk_pixbuf, freetype, fontconfig, gtkglext, xorg, nss, nspr, 
   gconf, alsaLib, dbus, cups, mesa_glu, systemd, expat
 }:
@@ -29,10 +29,7 @@ let
 in with builtins.getAttr builtins.currentSystem platform; stdenv.mkDerivation {
   name = "upwork-${version}";
   inherit version src alsaLib nss nspr gconf; 
-  libXtst = xorg.libXtst;
-  cupslib = cups.lib;
-  dbuslib = dbus.lib;
-  systemdlib = systemd.lib;
+
   buildInputs = [ dpkg makeWrapper ];
 
   unpackPhase = ''
@@ -50,32 +47,8 @@ in with builtins.getAttr builtins.currentSystem platform; stdenv.mkDerivation {
   postFixup = ''
     patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/share/upwork/upwork
     patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/share/upwork/chrome-sandbox
-    patchelf --set-rpath $out/share/upwork:$libPath $out/share/upwork/upwork
-    patchelf --set-rpath $out/share/upwork:$libPath $out/share/upwork/libcef.so
-
-    patchelf \
-      --add-needed $nss/lib/libnss3.so \
-      --add-needed $nss/lib/libnssutil3.so \
-      --add-needed $nss/lib/libsmime3.so \
-      --add-needed $nspr/lib/libnspr4.so \
-      --add-needed $cupslib/lib/libcups.so.2 \
-      --add-needed $(readlink -f $alsaLib/lib/libasound.so.2) \
-      --add-needed $(readlink -f $gconf/lib/libgconf-2.so.4) \
-      --add-needed $(readlink -f $libXtst/lib/libXtst.so.6) \
-      $out/share/upwork/libcef.so
-
-    patchelf \
-      --add-needed $nss/lib/libnss3.so \
-      --add-needed $nss/lib/libnssutil3.so \
-      --add-needed $nss/lib/libsmime3.so \
-      --add-needed $nspr/lib/libnspr4.so \
-      --add-needed $cupslib/lib/libcups.so.2 \
-      --add-needed $(readlink -f $alsaLib/lib/libasound.so.2) \
-      --add-needed $(readlink -f $gconf/lib/libgconf-2.so.4) \
-      --add-needed $(readlink -f $libXtst/lib/libXtst.so.6) \
-      --add-needed $(readlink -f $dbuslib/lib/libdbus-1.so.3) \
-      --add-needed $(readlink -f $systemdlib/lib/libudev.so) \
-      $out/share/upwork/upwork
+    patchelf --set-rpath $out/share/upwork:$libs/lib $out/share/upwork/upwork
+    patchelf --set-rpath $out/share/upwork:$libs/lib $out/share/upwork/libcef.so
 
     function soCheck {
         echo "Checking $1 for missing linked libraries..."
@@ -87,33 +60,45 @@ in with builtins.getAttr builtins.currentSystem platform; stdenv.mkDerivation {
     soCheck $out/share/upwork/libcef.so
   '';
 
-  libPath = stdenv.lib.makeLibraryPath [
-    stdenv.cc.cc.lib
-    stdenv.glibc.out
-    xorg.libX11
-    xorg.libXScrnSaver
-    xorg.libXi
-    xorg.libXinerama
-    xorg.libXcursor
-    xorg.libXext
-    xorg.libXfixes
-    xorg.libXcomposite
-    xorg.libXdamage
-    xorg.libXrandr
-    xorg.libXrender
-    glib
-    gtk2
-    atk
-    pango
-    cairo
-    gdk_pixbuf
-    freetype
-    fontconfig
-    gtkglext
-    dbus
-    mesa_glu
-    expat
-  ];
+  libs = buildEnv {
+    name = "upwork-libs-env";
+    pathsToLink = [ "/lib" ];
+
+    paths = [
+      cups.lib
+      dbus.lib
+      systemd.lib
+      stdenv.cc.cc.lib
+      xorg.libX11
+      xorg.libXtst
+      xorg.libXScrnSaver
+      xorg.libXi
+      xorg.libXinerama
+      xorg.libXcursor
+      xorg.libXext
+      xorg.libXfixes
+      xorg.libXcomposite
+      xorg.libXdamage
+      xorg.libXrandr
+      xorg.libXrender
+      gtk2
+      atk
+      glib
+      pango.out
+      cairo
+      gdk_pixbuf
+      freetype
+      fontconfig.lib
+      gtkglext
+      dbus
+      mesa_glu
+      expat
+      nss
+      nspr
+      alsaLib
+      gconf
+    ];
+  };
 
   meta = {
     homepage = https://www.upwork.com/downloads;

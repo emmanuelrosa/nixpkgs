@@ -1,6 +1,6 @@
 { stdenv, fetchurl, dpkg, makeWrapper, buildEnv,
   gtk2, atk, glib, cairo, pango, gdk_pixbuf, freetype, fontconfig, gtkglext, xorg, nss, nspr, 
-  gconf, alsaLib, dbus, cups, mesa_glu, systemd, expat
+  gconf, alsaLib, dbus, cups, mesa_glu, systemd, expat, pciutils
 }:
 
 let
@@ -97,6 +97,7 @@ in with builtins.getAttr builtins.currentSystem platform; stdenv.mkDerivation {
       nspr
       alsaLib
       gconf
+      pciutils
     ];
   };
 

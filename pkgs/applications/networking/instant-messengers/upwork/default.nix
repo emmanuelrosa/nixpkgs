@@ -1,6 +1,6 @@
 { stdenv, fetchurl, dpkg, makeWrapper, buildEnv,
   gtk2, atk, glib, cairo, pango, gdk_pixbuf, freetype, fontconfig, gtkglext, xorg, nss, nspr, 
-  gconf, alsaLib, dbus, cups, mesa_glu, systemd, expat, pciutils
+  gconf, alsaLib, dbus, cups, mesa_glu, systemd, expat, pciutils 
 }:
 
 let
@@ -40,13 +40,13 @@ in with builtins.getAttr builtins.currentSystem platform; stdenv.mkDerivation {
     mkdir -p $out/bin
     mkdir -p $out/share
     cp -ar ./usr/share/* $out/share
+    rm $out/share/upwork/chrome-sandbox
 
     makeWrapper $out/share/upwork/upwork $out/bin/upwork
   '';
 
   postFixup = ''
     patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/share/upwork/upwork
-    patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" $out/share/upwork/chrome-sandbox
     patchelf --set-rpath $libs/lib:$out/share/upwork $out/share/upwork/upwork
     patchelf --set-rpath $libs/lib:$out/share/upwork $out/share/upwork/libcef.so
 
@@ -56,7 +56,6 @@ in with builtins.getAttr builtins.currentSystem platform; stdenv.mkDerivation {
     }
 
     soCheck $out/share/upwork/upwork
-    soCheck $out/share/upwork/chrome-sandbox
     soCheck $out/share/upwork/libcef.so
   '';
 

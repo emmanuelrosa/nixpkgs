@@ -1,44 +1,34 @@
 { stdenv, fetchFromGitHub
-, makeWrapper, cmake, pkgconfig, asciidoc, libxslt, docbook_xsl
-, wayland, wlc, libxkbcommon, pixman, fontconfig, pcre, json_c, dbus_libs
-, pango, cairo, libinput, libcap, xwayland, pam, gdk_pixbuf, libpthreadstubs
+, cmake, pkgconfig, asciidoc, libxslt, docbook_xsl
+, wayland, wlc, libxkbcommon, pcre, json_c, dbus_libs
+, pango, cairo, libinput, libcap, pam, gdk_pixbuf, libpthreadstubs
 , libXdmcp
+, buildDocs ? true
 }:
 
 stdenv.mkDerivation rec {
   name = "sway-${version}";
-  version = "0.14.0";
+  version = "0.15.0";
 
   src = fetchFromGitHub {
-    owner = "Sircmpwn";
+    owner = "swaywm";
     repo = "sway";
-    rev = "${version}";
-    sha256 = "1l8v9cdzd44bm4q71d47vqg6933b8j42q1a61r362vz2la1rcpq2";
+    rev = version;
+    sha256 = "0rz5rgap2ah7hkk4glvlmjq0c8i2f47qzkwjx7gm4wmb8gymikmh";
   };
 
   nativeBuildInputs = [
-    makeWrapper cmake pkgconfig
-    asciidoc libxslt docbook_xsl
-  ];
+    cmake pkgconfig
+  ] ++ stdenv.lib.optional buildDocs [ asciidoc libxslt docbook_xsl ];
   buildInputs = [
-    wayland wlc libxkbcommon pixman fontconfig pcre json_c dbus_libs
-    pango cairo libinput libcap xwayland pam gdk_pixbuf libpthreadstubs
+    wayland wlc libxkbcommon pcre json_c dbus_libs
+    pango cairo libinput libcap pam gdk_pixbuf libpthreadstubs
     libXdmcp
   ];
 
-  patchPhase = ''
-    sed -i s@/etc/sway@$out/etc/sway@g CMakeLists.txt;
-  '';
+  enableParallelBuilding = true;
 
-  makeFlags = "PREFIX=$(out)";
   cmakeFlags = "-DVERSION=${version}";
-  installPhase = "PREFIX=$out make install";
-
-  LD_LIBRARY_PATH = stdenv.lib.makeLibraryPath [ wlc dbus_libs ];
-  preFixup = ''
-    wrapProgram $out/bin/sway \
-      --prefix LD_LIBRARY_PATH : "${LD_LIBRARY_PATH}";
-  '';
 
   meta = with stdenv.lib; {
     description = "i3-compatible window manager for Wayland";

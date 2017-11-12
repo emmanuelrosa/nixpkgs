@@ -55,7 +55,22 @@ following incompatible changes:</para>
 
 <itemizedlist>
   <listitem>
-    <para></para>
+    <para>
+      Dollar signs in options under <option>services.postfix</option> are
+      passed verbatim to Postfix, which will interpret them as the beginning of
+      a parameter expression. This was already true for string-valued options
+      in the previous release, but not for list-valued options. If you need to
+      pass literal dollar signs through Postfix, double them.
+    </para>
+  </listitem>
+  <listitem>
+    <para>
+      The <literal>postage</literal> package (for web-based PostgreSQL
+      administration) has been renamed to <literal>pgmanage</literal>. The
+      corresponding module has also been renamed. To migrate please rename all
+      <option>services.postage</option> options to
+      <option>services.pgmanage</option>.
+    </para>
   </listitem>
 </itemizedlist>
 

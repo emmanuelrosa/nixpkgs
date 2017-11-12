@@ -1,5 +1,6 @@
 { stdenv, fetchurl, fetchpatch, pkgconfig, libXft, cairo, harfbuzz
 , libintlOrEmpty, gobjectIntrospection, darwin
+, libthai ? null
 }:
 
 with stdenv.lib;
@@ -18,7 +19,7 @@ stdenv.mkDerivation rec {
 
   outputs = [ "bin" "dev" "out" "devdoc" ];
 
-  buildInputs = [ gobjectIntrospection ];
+  buildInputs = [ gobjectIntrospection libthai ];
   nativeBuildInputs = [ pkgconfig ]
     ++ optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [
        Carbon

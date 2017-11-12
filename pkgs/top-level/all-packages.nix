@@ -19591,10 +19591,24 @@ with pkgs;
     inherit (gnome2) GConf libgnomeui gnome_vfs;
   };
 
-  upwork = callPackage ../applications/networking/instant-messengers/upwork { 
-    gtkglext = gnome2.gtkglext;
+  upwork = let
     gconf = gnome2.GConf;
     pango = pangoWithThai;
+
+    gtkglext = callPackage ../desktops/gnome-2/platform/gtkglext {
+      inherit pango gtk pangox_compat;
+    };
+
+    pangox_compat = callPackage ../development/libraries/pangox-compat { inherit pango; };
+
+    gtk = callPackage ../development/libraries/gtk+/2.x.nix {
+      cupsSupport = config.gtk2.cups or stdenv.isLinux;
+      gdktarget = if stdenv.isDarwin then "quartz" else "x11";
+      inherit (darwin.apple_sdk.frameworks) AppKit Cocoa;
+      pango = pangoWithThai;
+    };
+  in callPackage ../applications/networking/instant-messengers/upwork { 
+    inherit gconf pango gtkglext gtk;
   };
 
   urbit = callPackage ../misc/urbit { };

@@ -1,5 +1,5 @@
 { stdenv, fetchurl, dpkg, makeWrapper, buildEnv,
-  gtk2, atk, glib, cairo, pango, gdk_pixbuf, freetype, fontconfig, gtkglext, xorg, nss, nspr, 
+  gtk, atk, glib, cairo, pango, gdk_pixbuf, freetype, fontconfig, gtkglext, xorg, nss, nspr, 
   gconf, alsaLib, dbus, cups, mesa_glu, systemd, expat, pciutils 
 }:
 
@@ -80,7 +80,7 @@ in with builtins.getAttr builtins.currentSystem platform; stdenv.mkDerivation {
       xorg.libXdamage
       xorg.libXrandr
       xorg.libXrender
-      gtk2
+      gtk
       atk
       glib
       pango.out

@@ -200,6 +200,7 @@
   elijahcaine = "Elijah Caine <elijahcainemv@gmail.com>";
   elitak = "Eric Litak <elitak@gmail.com>";
   ellis = "Ellis Whitehead <nixos@ellisw.net>";
+  emmanuelrosa = "Emmanuel Rosa <emmanuel_rosa@aol.com>";
   eperuffo = "Emanuele Peruffo <info@emanueleperuffo.com>";
   epitrochoid = "Mabry Cervin <mpcervin@uncg.edu>";
   eqyiel = "Ruben Maher <r@rkm.id.au>";

@@ -8984,6 +8984,8 @@ with pkgs;
 
   libdap = callPackage ../development/libraries/libdap { };
 
+  libdatrie_012 = callPackage ../development/libraries/libdatrie/012.nix { };
+
   libdbi = callPackage ../development/libraries/libdbi { };
 
   libdbiDriversBase = callPackage ../development/libraries/libdbi-drivers {

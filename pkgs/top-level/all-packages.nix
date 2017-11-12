@@ -9587,6 +9587,10 @@ with pkgs;
 
   libtasn1 = callPackage ../development/libraries/libtasn1 { };
 
+  libthai_019 = callPackage ../development/libraries/libthai/019.nix {
+      libdatrie = libdatrie_012;
+  };
+
   libtcod = callPackage ../development/libraries/libtcod { };
 
   libtheora = callPackage ../development/libraries/libtheora { };

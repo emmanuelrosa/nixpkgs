@@ -11,6 +11,7 @@ stdenv.mkDerivation {
   outputs = [ "out" "dev" ];
   buildInputs = [ libdatrie ];
   nativeBuildInputs = [ pkgconfig ];
+  propagatedBuildInputs = [ libdatrie ];
 
   meta = with lib; {
     description = "Thai language support routines aimed to ease developers’ tasks to incorporate Thai language support in their applications";

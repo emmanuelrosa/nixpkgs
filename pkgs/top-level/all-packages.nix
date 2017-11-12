@@ -8561,6 +8561,10 @@ with pkgs;
 
   pango = callPackage ../development/libraries/pango { };
 
+  pangoWithThai = callPackage ../development/libraries/pango {
+    libthai = libthai_019;
+  };
+
   pangolin = callPackage ../development/libraries/pangolin {
     inherit (darwin.apple_sdk.frameworks) Carbon Cocoa;
   };

@@ -19594,6 +19594,7 @@ with pkgs;
   upwork = callPackage ../applications/networking/instant-messengers/upwork { 
     gtkglext = gnome2.gtkglext;
     gconf = gnome2.GConf;
+    pango = pangoWithThai;
   };
 
   urbit = callPackage ../misc/urbit { };

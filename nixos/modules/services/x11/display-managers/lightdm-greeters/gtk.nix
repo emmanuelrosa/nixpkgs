@@ -121,7 +121,7 @@ in
       indicators = mkOption {
         type = types.nullOr (types.listOf types.str);
         default = null;
-        example = ["~host" "~spacer" "~clock" "~spacer" "~session" "~language" "~a11y" "~power" ];
+        example = [ "~host" "~spacer" "~clock" "~spacer" "~session" "~language" "~a11y" "~power" ];
         description = ''
           List of allowed indicator modules to use for the lightdm gtk
           greeter panel.
@@ -129,7 +129,7 @@ in
           Built-in indicators include "~a11y", "~language", "~session",
           "~power", "~clock", "~host", "~spacer". Unity indicators can be
           represented by short name (e.g. "sound", "power"), service file name,
-          or absolute path
+          or absolute path.
 
           If set to null the default indicators are used.
         '';

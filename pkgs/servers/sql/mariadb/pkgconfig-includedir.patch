@@ -1,0 +1,11 @@
+--- a/support-files/mariadb.pc.in	2018-01-03 08:48:32.000000000 -0500
++++ b/support-files/mariadb.pc.in	2018-02-19 21:13:38.961757122 -0500
+@@ -2,7 +2,7 @@
+ prefix=@CMAKE_INSTALL_PREFIX@
+ exec_prefix=${prefix}
+ libdir=${prefix}/@INSTALL_LIBDIR@
+-includedir=${prefix}/@INSTALL_INCLUDEDIR@
++includedir=${prefix}/include/mysql
+ # those are rarely present or not at all, but we export them regardless
+ bindir=${prefix}/@INSTALL_BINDIR@
+ sbindir=${prefix}/@INSTALL_SBINDIR@

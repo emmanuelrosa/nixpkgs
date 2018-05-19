@@ -17448,6 +17448,8 @@ with pkgs;
 
   purple-facebook = callPackage ../applications/networking/instant-messengers/pidgin-plugins/purple-facebook { };
 
+  purple-lurch = callPackage ../applications/networking/instant-messengers/pidgin-plugins/purple-lurch { };
+
   pithos = callPackage ../applications/audio/pithos {
     pythonPackages = python3Packages;
   };

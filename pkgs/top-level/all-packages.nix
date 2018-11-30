@@ -15748,6 +15748,8 @@ with pkgs;
 
   adobe-reader = pkgsi686Linux.callPackage ../applications/misc/adobe-reader { };
 
+  masterpassword = callPackage ../applications/misc/masterpassword { };
+
   masterpdfeditor = libsForQt5.callPackage ../applications/misc/masterpdfeditor { };
 
   aeolus = callPackage ../applications/audio/aeolus { };

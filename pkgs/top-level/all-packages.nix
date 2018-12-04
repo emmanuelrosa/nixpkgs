@@ -5832,6 +5832,8 @@ with pkgs;
 
   triggerhappy = callPackage ../tools/inputmethods/triggerhappy {};
 
+  trilium-server = callPackage ../applications/office/trilium-server { };
+
   trousers = callPackage ../tools/security/trousers { };
 
   tryton = callPackage ../applications/office/tryton { };

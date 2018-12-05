@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, p7zip, patchelf, zlib }:
+{ stdenv, fetchurl, p7zip, patchelf, buildEnv, zlib, glibc }:
 
 stdenv.mkDerivation rec {
   name = "trilium-server-${version}";
@@ -27,6 +27,8 @@ stdenv.mkDerivation rec {
     rm $out/usr/share/trilium/node_modules/rcedit/bin/rcedit.exe
     rm $out/usr/share/trilium/node/lib/node_modules/npm/node_modules/term-size/vendor/windows/term-size.exe
     rm $out/usr/share/trilium/node_modules/term-size/vendor/windows/term-size.exe
+    rm $out/usr/share/trilium/node_modules/sqlite3/bin/linux-ia32-64/sqlite3.node
+    rm $out/usr/share/trilium/node_modules/sqlite3/lib/binding/electron-v4.0-linux-ia32/node_sqlite3.node
 
     ln -s $out/usr/share/trilium/trilium.sh $out/bin/trilium
   '';
@@ -34,19 +36,31 @@ stdenv.mkDerivation rec {
   dontPatchELF = true; 
 
   postFixup = ''
-    ${patchelf}/bin/patchelf \
-      --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
-      --set-rpath ${stdenv.cc.cc.lib}/lib \
-      $out/usr/share/trilium/node/bin/node
-
-    ${patchelf}/bin/patchelf \
-      --set-rpath ${zlib.out}/lib \
-      $out/usr/share/trilium/node_modules/mozjpeg/vendor/cjpeg 
+    for f in $out/usr/share/trilium/node/bin/node $out/usr/share/trilium/node_modules/mozjpeg/vendor/cjpeg
+    do
+      echo $f
+      ${patchelf}/bin/patchelf \
+        --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
+        --set-rpath $libs/lib \
+        $f
+        ldd $f
+    done
 
     substituteInPlace $out/usr/share/trilium/trilium.sh \
       --replace "./node" $out/usr/share/trilium/node \
       --replace "src/www" $out/usr/share/trilium/src/www
   '';
+
+  libs = buildEnv {
+    name = "trilium-server-libs-env";
+    pathsToLink = [ "/lib" ];
+
+    paths = [
+      stdenv.cc.cc.lib
+      zlib
+      glibc
+    ];
+  };
 
   meta = with stdenv.lib; {
     description = "Trilium Notes is a hierarchical note taking application with focus on building large personal knowledge bases.";

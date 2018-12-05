@@ -1,4 +1,4 @@
-{ stdenv, fetchurl, p7zip, patchelf }:
+{ stdenv, fetchurl, p7zip, patchelf, zlib }:
 
 stdenv.mkDerivation rec {
   name = "trilium-server-${version}";
@@ -30,12 +30,18 @@ stdenv.mkDerivation rec {
 
     ln -s $out/usr/share/trilium/trilium.sh $out/bin/trilium
   '';
-  
+
+  dontPatchELF = true; 
+
   postFixup = ''
     ${patchelf}/bin/patchelf \
       --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
       --set-rpath ${stdenv.cc.cc.lib}/lib \
       $out/usr/share/trilium/node/bin/node
+
+    ${patchelf}/bin/patchelf \
+      --set-rpath ${zlib.out}/lib \
+      $out/usr/share/trilium/node_modules/mozjpeg/vendor/cjpeg 
 
     substituteInPlace $out/usr/share/trilium/trilium.sh \
       --replace "./node" $out/usr/share/trilium/node \

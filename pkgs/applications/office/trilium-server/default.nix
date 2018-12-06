@@ -20,9 +20,7 @@ stdenv.mkDerivation rec {
     mkdir -p $out/usr/share/trilium
 
     cp -r ./* $out/usr/share/trilium
-  '';
 
-  postInstallPhase = ''
     rm $out/usr/share/trilium/node_modules/spawn-rx/vendor/jobber/Jobber.exe
     rm $out/usr/share/trilium/node_modules/rcedit/bin/rcedit.exe
     rm $out/usr/share/trilium/node/lib/node_modules/npm/node_modules/term-size/vendor/windows/term-size.exe
@@ -32,8 +30,6 @@ stdenv.mkDerivation rec {
 
     ln -s $out/usr/share/trilium/trilium.sh $out/bin/trilium
   '';
-
-  dontPatchELF = true; 
 
   postFixup = ''
     for f in $out/usr/share/trilium/node/bin/node $out/usr/share/trilium/node_modules/mozjpeg/vendor/cjpeg

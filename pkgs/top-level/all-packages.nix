@@ -5062,6 +5062,8 @@ in
 
   qastools = libsForQt5.callPackage ../tools/audio/qastools { };
 
+  qb64 = callPackage ../development/compilers/qb64 { };
+
   qesteidutil = libsForQt5.callPackage ../tools/security/qesteidutil { } ;
   qdigidoc = libsForQt5.callPackage ../tools/security/qdigidoc { } ;
   esteidfirefoxplugin = callPackage ../applications/networking/browsers/mozilla-plugins/esteidfirefoxplugin { };

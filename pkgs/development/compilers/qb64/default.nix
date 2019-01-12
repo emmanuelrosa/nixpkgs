@@ -55,7 +55,7 @@ stdenv.mkDerivation rec {
     echo "Building 'QB64'"
     cp internal/source/* internal/temp
     pushd internal/c
-    g++ -w qbx.cpp libqb/os/lnx/libqb_setup.o parts/video/font/ttf/os/lnx/src.o parts/core/os/lnx/temp/*.txt -lGL -lGLU -lX11 -lpthread -ldl -lrt -D FREEGLUT_STATIC -o ../../qb64
+    g++ -w qbx.cpp libqb/os/lnx/libqb_setup.o parts/video/font/ttf/os/lnx/src.o parts/core/os/lnx/temp/*.o -lGL -lGLU -lX11 -lpthread -ldl -lrt -D FREEGLUT_STATIC -o ../../qb64
     popd
   '';
 

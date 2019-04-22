@@ -1,7 +1,7 @@
 { stdenv, fetchurl, ghostscript, texinfo, imagemagick, texi2html, guile
-, python2, gettext, flex, perl, bison, pkgconfig, dblatex
+, python2, gettext, flex, perl, bison, pkgconfig, autoreconfHook, dblatex
 , fontconfig, freetype, pango, fontforge, help2man, zip, netpbm, groff
-, fetchsvn, makeWrapper, t1utils, autoconf, automake
+, fetchsvn, makeWrapper, t1utils
 , texlive, tex ? texlive.combine {
     inherit (texlive) scheme-small lh metafont epsf;
   }
@@ -37,15 +37,17 @@ stdenv.mkDerivation rec{
 
   preConfigure = ''
     sed -e "s@mem=mf2pt1@mem=$PWD/mf/mf2pt1@" -i scripts/build/mf2pt1.pl
-    sed -i -e 's/STEPMAKE_PATH_PROG(FONTFORGE, fontforge, REQUIRED, 20110222)/STEPMAKE_PATH_PROG(FONTFORGE, fontforge)/' configure.ac
     export HOME=$TMPDIR/home
-    sh autogen.sh ${stdenv.lib.concatStringsSep " " configureFlags}
   '';
+
+  nativeBuildInputs = [ makeWrapper pkgconfig autoreconfHook ];
+
+  autoreconfPhase = "NOCONFIGURE=1 sh autogen.sh";
 
   buildInputs =
     [ ghostscript texinfo imagemagick texi2html guile dblatex tex zip netpbm
-      python2 gettext flex perl bison pkgconfig fontconfig freetype pango
-      fontforge help2man groff makeWrapper t1utils autoconf automake
+      python2 gettext flex perl bison fontconfig freetype pango
+      fontforge help2man groff t1utils
     ];
 
   enableParallelBuilding = true;

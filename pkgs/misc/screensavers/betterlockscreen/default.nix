@@ -1,6 +1,6 @@
 {
   stdenv, makeWrapper, fetchFromGitHub,
-  imagemagick, i3lock-color, xdpyinfo, xrandr, bc, feh
+  imagemagick, i3lock-color, xdpyinfo, xrandr, bc, feh, procps, xrdb
 }:
 
 stdenv.mkDerivation rec {
@@ -22,7 +22,7 @@ stdenv.mkDerivation rec {
     let 
       PATH = 
         stdenv.lib.makeBinPath
-        [imagemagick i3lock-color xdpyinfo xrandr bc feh];
+        [imagemagick i3lock-color xdpyinfo xrandr bc feh procps xrdb];
     in ''
       mkdir -p $out/bin
       cp betterlockscreen $out/bin/betterlockscreen

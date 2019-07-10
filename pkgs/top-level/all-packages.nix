@@ -179,6 +179,8 @@ in
 
   dockerTools = callPackage ../build-support/docker { };
 
+  snapTools = callPackage ../build-support/snap { };
+
   nix-prefetch-docker = callPackage ../build-support/docker/nix-prefetch-docker.nix { };
 
   docker-compose = python3Packages.callPackage ../applications/virtualization/docker-compose {};
@@ -332,6 +334,8 @@ in
     showURLs = true;
     inherit url;
   };
+
+  lazydocker = callPackage ../tools/misc/lazydocker { };
 
   ld-is-cc-hook = makeSetupHook { name = "ld-is-cc-hook"; }
     ../build-support/setup-hooks/ld-is-cc-hook.sh;
@@ -739,6 +743,8 @@ in
   ctrtool = callPackage ../tools/archivers/ctrtool { };
 
   crumbs = callPackage ../applications/misc/crumbs { };
+
+  cue = callPackage ../development/tools/cue { };
 
   deskew = callPackage ../applications/graphics/deskew { };
 
@@ -1693,6 +1699,8 @@ in
 
   lynis = callPackage ../tools/security/lynis { };
 
+  marlin-calc = callPackage ../tools/misc/marlin-calc {};
+
   mathics = pythonPackages.mathics;
 
   masscan = callPackage ../tools/security/masscan {
@@ -1710,6 +1718,8 @@ in
   meson = callPackage ../development/tools/build-managers/meson { };
 
   metabase = callPackage ../servers/metabase { };
+
+  mididings = callPackage ../tools/audio/mididings { };
 
   miniserve = callPackage ../tools/misc/miniserve { };
 
@@ -2686,6 +2696,8 @@ in
   z-lua = callPackage ../tools/misc/z-lua { };
 
   zabbix-cli = callPackage ../tools/misc/zabbix-cli { };
+
+  zabbixctl = callPackage ../tools/misc/zabbixctl { };
 
   zzuf = callPackage ../tools/security/zzuf { };
 
@@ -3720,6 +3732,8 @@ in
 
   icecast = callPackage ../servers/icecast { };
 
+  iceshelf = callPackage ../tools/backup/iceshelf { };
+
   darkice = callPackage ../tools/audio/darkice { };
 
   deco = callPackage ../applications/misc/deco { };
@@ -3986,7 +4000,7 @@ in
     inherit (darwin.apple_sdk.frameworks) AVFoundation AudioToolbox ImageIO CoreMedia Foundation CoreGraphics MediaToolbox;
   };
 
-  kbfs = callPackage ../tools/security/kbfs { };
+  kbfs = callPackage ../tools/security/keybase/kbfs.nix { };
 
   keybase-gui = callPackage ../tools/security/keybase/gui.nix { };
 
@@ -6988,6 +7002,8 @@ in
 
   zsh-command-time = callPackage ../shells/zsh/zsh-command-time { };
 
+  zsh-you-should-use = callPackage ../shells/zsh/zsh-you-should-use { };
+
   zssh = callPackage ../tools/networking/zssh { };
 
   zstd = callPackage ../tools/compression/zstd { };
@@ -8059,6 +8075,7 @@ in
   cargo-bloat = callPackage ../development/tools/rust/cargo-bloat { };
   cargo-expand = callPackage ../development/tools/rust/cargo-expand { };
   cargo-fuzz = callPackage ../development/tools/rust/cargo-fuzz { };
+  cargo-inspect = callPackage ../development/tools/rust/cargo-inspect { };
   cargo-make = callPackage ../development/tools/rust/cargo-make {
     inherit (darwin.apple_sdk.frameworks) Security;
   };
@@ -8526,6 +8543,7 @@ in
   python35Full = python35.override{x11Support=true;};
   python36Full = python36.override{x11Support=true;};
   python37Full = python37.override{x11Support=true;};
+  python38Full = python38.override{x11Support=true;};
 
   # pythonPackages further below, but assigned here because they need to be in sync
   pythonPackages = python.pkgs;
@@ -8533,13 +8551,14 @@ in
   python3Packages = python3.pkgs;
 
   pythonInterpreters = callPackage ./../development/interpreters/python {};
-  inherit (pythonInterpreters) python27 python35 python36 python37 pypy27 pypy35;
+  inherit (pythonInterpreters) python27 python35 python36 python37 python38 pypy27 pypy35;
 
   # Python package sets.
   python27Packages = lib.hiPrioSet (recurseIntoAttrs python27.pkgs);
   python35Packages = python35.pkgs;
   python36Packages = python36.pkgs;
   python37Packages = recurseIntoAttrs python37.pkgs;
+  python38Packages = python38.pkgs;
   pypyPackages = pypy.pkgs;
   pypy2Packages = pypy2.pkgs;
   pypy27Packages = pypy27.pkgs;
@@ -9850,7 +9869,7 @@ in
 
   ycmd = callPackage ../development/tools/misc/ycmd {
     inherit (darwin.apple_sdk.frameworks) Cocoa;
-    python = python2;
+    python = python3;
   };
 
   yodl = callPackage ../development/tools/misc/yodl { };
@@ -10156,6 +10175,8 @@ in
   ctpl = callPackage ../development/libraries/ctpl { };
 
   cppdb = callPackage ../development/libraries/cppdb { };
+
+  cpp-utilities = callPackage ../development/libraries/cpp-utilities { };
 
   cpp-hocon = callPackage ../development/libraries/cpp-hocon { };
 
@@ -12273,7 +12294,9 @@ in
   # libGL.so/libEGL.so/... to link agains them. Android NDK provides
   # an OpenGL implementation, we can just use that.
   libGL = if stdenv.hostPlatform.useAndroidPrebuilt then stdenv
-          else mesa.stubs;
+          else callPackage ../development/libraries/mesa/stubs.nix {
+            inherit (darwin.apple_sdk.frameworks) OpenGL;
+          };
 
   # Default libGLU
   libGLU = mesa_glu;
@@ -12691,8 +12714,6 @@ in
 
   protobuf3_7 = callPackage ../development/libraries/protobuf/3.7.nix { };
   protobuf3_6 = callPackage ../development/libraries/protobuf/3.6.nix { };
-  protobuf3_5 = callPackage ../development/libraries/protobuf/3.5.nix { };
-  protobuf3_4 = callPackage ../development/libraries/protobuf/3.4.nix { };
   protobuf3_1 = callPackage ../development/libraries/protobuf/3.1.nix { };
   protobuf2_5 = callPackage ../development/libraries/protobuf/2.5.nix { };
 
@@ -15349,6 +15370,14 @@ in
       ];
   };
 
+  linux_5_2 = callPackage ../os-specific/linux/kernel/linux-5.2.nix {
+    kernelPatches =
+      [ kernelPatches.bridge_stp_helper
+        kernelPatches.modinst_arg_list_too_long
+        kernelPatches.export_kernel_fpu_functions
+      ];
+  };
+
   linux_testing = callPackage ../os-specific/linux/kernel/linux-testing.nix {
     kernelPatches = [
       kernelPatches.bridge_stp_helper
@@ -15540,7 +15569,7 @@ in
   linux = linuxPackages.kernel;
 
   # Update this when adding the newest kernel major version!
-  linuxPackages_latest = linuxPackages_5_1;
+  linuxPackages_latest = linuxPackages_5_2;
   linux_latest = linuxPackages_latest.kernel;
 
   # Build the kernel modules for the some of the kernels.
@@ -15551,6 +15580,7 @@ in
   linuxPackages_4_14 = recurseIntoAttrs (linuxPackagesFor pkgs.linux_4_14);
   linuxPackages_4_19 = recurseIntoAttrs (linuxPackagesFor pkgs.linux_4_19);
   linuxPackages_5_1 = recurseIntoAttrs (linuxPackagesFor pkgs.linux_5_1);
+  linuxPackages_5_2 = recurseIntoAttrs (linuxPackagesFor pkgs.linux_5_2);
 
   # When adding to this list:
   # - Update linuxPackages_latest to the latest version
@@ -17411,6 +17441,8 @@ in
 
   dragonfly-reverb = callPackage ../applications/audio/dragonfly-reverb { };
 
+  drawio = callPackage ../applications/graphics/drawio {};
+
   drawpile = libsForQt5.callPackage ../applications/graphics/drawpile { };
   drawpile-server-headless = libsForQt5.callPackage ../applications/graphics/drawpile {
     buildClient = false;
@@ -18452,6 +18484,8 @@ in
 
   i3-easyfocus = callPackage ../applications/window-managers/i3/easyfocus.nix { };
 
+  i3-layout-manager = callPackage ../applications/window-managers/i3/layout-manager.nix { };
+
   i3blocks = callPackage ../applications/window-managers/i3/blocks.nix { };
 
   i3blocks-gaps = callPackage ../applications/window-managers/i3/blocks-gaps.nix { };
@@ -19305,6 +19339,17 @@ in
   };
 
   polybar = callPackage ../applications/misc/polybar { };
+
+  polybarFull = callPackage ../applications/misc/polybar {
+    alsaSupport = true;
+    githubSupport = true;
+    mpdSupport = true;
+    pulseSupport  = true;
+    iwSupport = true;
+    nlSupport = true;
+    i3Support = true;
+    i3GapsSupport = true;
+  };
 
   ptex = callPackage ../development/libraries/ptex {};
 

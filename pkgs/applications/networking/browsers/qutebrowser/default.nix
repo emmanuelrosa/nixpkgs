@@ -1,5 +1,5 @@
 { stdenv, lib, fetchurl, fetchzip, python3Packages
-, makeWrapper, wrapGAppsHook, qtbase, glib-networking
+, wrapQtAppsHook, wrapGAppsHook, qtbase, glib-networking
 , asciidoc, docbook_xml_dtd_45, docbook_xsl, libxml2
 , libxslt, gst_all_1 ? null
 , withPdfReader        ? true
@@ -41,7 +41,7 @@ in python3Packages.buildPythonApplication rec {
   ]);
 
   nativeBuildInputs = [
-    makeWrapper wrapGAppsHook asciidoc
+    wrapQtAppsHook wrapGAppsHook asciidoc
     docbook_xml_dtd_45 docbook_xsl libxml2 libxslt
   ];
 
@@ -93,6 +93,9 @@ in python3Packages.buildPythonApplication rec {
     for i in $scripts; do
       patchPythonScript "$i"
     done
+
+    # Wrap Qt program
+    wrapQtApp $out/bin/qutebrowser
   '';
 
   meta = with stdenv.lib; {

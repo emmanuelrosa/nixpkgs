@@ -23,7 +23,9 @@ in buildPythonPackage rec {
 
   outputs = [ "out" "dev" ];
 
-  nativeBuildInputs = [ pkgconfig qmake lndir sip ];
+  nativeBuildInputs = [ pkgconfig qmake lndir sip 
+                        qtbase qtsvg qtwebengine
+                      ];
 
   buildInputs = [ dbus sip ];
 

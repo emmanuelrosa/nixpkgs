@@ -23,17 +23,15 @@ in buildPythonPackage rec {
 
   outputs = [ "out" "dev" ];
 
-  nativeBuildInputs = [ pkgconfig qmake lndir sip 
-                        qtbase qtsvg qtwebengine
-                      ];
+  nativeBuildInputs = [ pkgconfig qmake lndir sip qtbase qtsvg qtwebengine ]
+    ++ lib.optional withConnectivity qtconnectivity
+    ++ lib.optional withWebKit qtwebkit
+    ++ lib.optional withWebSockets qtwebsockets;
 
   buildInputs = [ dbus sip ];
 
   propagatedBuildInputs = [ qtbase qtsvg qtwebengine dbus-python ]
-    ++ lib.optional (!isPy3k) enum34
-    ++ lib.optional withConnectivity qtconnectivity
-    ++ lib.optional withWebKit qtwebkit
-    ++ lib.optional withWebSockets qtwebsockets;
+    ++ lib.optional (!isPy3k) enum34;
 
   patches = [
     # Fix some wrong assumptions by ./configure.py

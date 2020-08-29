@@ -67,7 +67,16 @@ python3Packages.buildPythonApplication {
     aiorpcx
     attrs
     bitstring
-    dnspython
+    (dnspython.overrideAttrs (oldAttrs: rec {
+      version = "1.16.0";
+
+      src = fetchPypi {
+        inherit  version;
+        pname = "dnspython";
+        extension = "zip";
+        sha256 = "36c5e8e38d4369a08b6780b7f27d790a292b2b08eea01607865bf0936c558e01";
+      };
+    }))
     ecdsa
     jsonrpclib-pelix
     matplotlib

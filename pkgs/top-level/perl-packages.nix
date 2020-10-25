@@ -8302,10 +8302,10 @@ let
 
   FutureAsyncAwait = buildPerlModule {
     pname = "Future-AsyncAwait";
-    version = "0.44";
+    version = "0.45";
     src = fetchurl {
-      url = "mirror://cpan/authors/id/P/PE/PEVANS/Future-AsyncAwait-0.44.tar.gz";
-      sha256 = "131825164614ede6a49df4566e730c4cc22e3129796039b9360fa551701413fe";
+      url = "mirror://cpan/authors/id/P/PE/PEVANS/Future-AsyncAwait-0.45.tar.gz";
+      sha256 = "1aq19b21r9i4c1mxkrv0irnx16234cnzsx50178c7xif4gqkar9k";
     };
     buildInputs = [ TestRefcount ];
     propagatedBuildInputs = [ Future XSParseSublike ];
@@ -16187,10 +16187,10 @@ let
 
   PerlTidy = buildPerlPackage rec {
     pname = "Perl-Tidy";
-    version = "20200110";
+    version = "20201001";
     src = fetchurl {
-      url = "mirror://cpan/authors/id/S/SH/SHANCOCK/Perl-Tidy-20200110.tar.gz";
-      sha256 = "c8c13ab88f42409d419993d488b8dc7cf4a02d5034d3037ca859fb93b18e8086";
+      url = "mirror://cpan/authors/id/S/SH/SHANCOCK/Perl-Tidy-${version}.tar.gz";
+      sha256 = "04lsvjhv9h11scq9craky4gzpf2bw2q68wg6p0ppk79302rynwq8";
     };
     meta = {
       description = "Indent and reformat perl scripts";
@@ -20168,12 +20168,12 @@ let
     propagatedBuildInputs = [ MCE PerlCritic ];
   };
 
-  TestPerlTidy = buildPerlModule {
+  TestPerlTidy = buildPerlModule rec {
     pname = "Test-PerlTidy";
-    version = "20200412";
+    version = "20200930";
     src = fetchurl {
-      url = "mirror://cpan/authors/id/S/SH/SHLOMIF/Test-PerlTidy-20200412.tar.gz";
-      sha256 = "905240447edb1930192000db659556cbf5ad5710f4376bb0a5abcd8716a4592c";
+      url = "mirror://cpan/authors/id/S/SH/SHLOMIF/Test-PerlTidy-${version}.tar.gz";
+      sha256 = "1djpfi57s1j6mqb0ii2ca1sj3ym7jjab018inp6vdmsyfjcnhvwz";
     };
     propagatedBuildInputs = [ PathTiny PerlTidy TextDiff ];
     meta = {

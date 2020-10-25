@@ -2342,6 +2342,8 @@ in
 
   patdiff = callPackage ../tools/misc/patdiff { };
 
+  patool = with python3Packages; toPythonApplication patool;
+
   pbpst = callPackage ../applications/misc/pbpst { };
 
   pbzx = callPackage ../tools/compression/pbzx { };
@@ -7112,6 +7114,8 @@ in
     inherit (darwin.apple_sdk.frameworks) Security;
   };
 
+  sonar-scanner-cli = callPackage ../tools/security/sonar-scanner-cli { };
+
   solr = callPackage ../servers/search/solr { };
   solr_7 = solr;
   solr_8 = solr;
@@ -9798,8 +9802,8 @@ in
   sagittarius-scheme = callPackage ../development/compilers/sagittarius-scheme {};
 
   sbclBootstrap = callPackage ../development/compilers/sbcl/bootstrap.nix {};
-  sbcl_2_0_2 = callPackage ../development/compilers/sbcl {};
-  sbcl = callPackage ../development/compilers/sbcl/2.0.0.nix {};
+  sbcl_2_0_9 = callPackage ../development/compilers/sbcl/2.0.9.nix {};
+  sbcl = callPackage ../development/compilers/sbcl {};
 
   scala_2_10 = callPackage ../development/compilers/scala/2.10.nix { };
   scala_2_11 = callPackage ../development/compilers/scala/2.11.nix { };
@@ -14603,6 +14607,8 @@ in
 
   nanomsg = callPackage ../development/libraries/nanomsg { };
 
+  nanovna-saver = libsForQt5.callPackage ../applications/science/electronics/nanovna-saver { };
+
   ndpi = callPackage ../development/libraries/ndpi { };
 
   nifticlib = callPackage ../development/libraries/science/biology/nifticlib { };
@@ -14779,7 +14785,9 @@ in
 
   opensaml-cpp = callPackage ../development/libraries/opensaml-cpp { };
 
-  openscenegraph = callPackage ../development/libraries/openscenegraph { };
+  openscenegraph = callPackage ../development/libraries/openscenegraph {
+    inherit (darwin.apple_sdk.frameworks) AGL Carbon Cocoa Foundation;
+  };
 
   openslp = callPackage ../development/libraries/openslp {};
 
@@ -16244,8 +16252,8 @@ in
     inherit clwrapper;
   };
 
-  lispPackages = recurseIntoAttrs (quicklispPackages_asdf_3_1 //
-    lispPackagesFor ((wrapLisp sbcl).override { asdf = asdf_3_1; }));
+  lispPackages = recurseIntoAttrs (quicklispPackages //
+    (lispPackagesFor (wrapLisp sbcl)));
 
   quicklispPackagesFor = clwrapper: callPackage ../development/lisp-modules/quicklisp-to-nix.nix {
     inherit clwrapper;
@@ -16253,8 +16261,6 @@ in
   quicklispPackagesClisp = dontRecurseIntoAttrs (quicklispPackagesFor (wrapLisp clisp));
   quicklispPackagesSBCL = dontRecurseIntoAttrs (quicklispPackagesFor (wrapLisp sbcl));
   quicklispPackages = quicklispPackagesSBCL;
-  quicklispPackages_asdf_3_1 = quicklispPackagesFor
-    ((wrapLisp sbcl).override { asdf = asdf_3_1; });
 
   ### DEVELOPMENT / PERL MODULES
 
@@ -17050,6 +17056,7 @@ in
   prometheus-pushgateway = callPackage ../servers/monitoring/prometheus/pushgateway.nix { };
   prometheus-redis-exporter = callPackage ../servers/monitoring/prometheus/redis-exporter.nix { };
   prometheus-rabbitmq-exporter = callPackage ../servers/monitoring/prometheus/rabbitmq-exporter.nix { };
+  prometheus-rtl_433-exporter = callPackage ../servers/monitoring/prometheus/rtl_433-exporter.nix { };
   prometheus-snmp-exporter = callPackage ../servers/monitoring/prometheus/snmp-exporter.nix { };
   prometheus-tor-exporter = callPackage ../servers/monitoring/prometheus/tor-exporter.nix { };
   prometheus-statsd-exporter = callPackage ../servers/monitoring/prometheus/statsd-exporter.nix { };
@@ -22659,6 +22666,8 @@ in
 
   opusfile = callPackage ../applications/audio/opusfile { };
 
+  opustags = callPackage ../applications/audio/opustags { };
+
   opusTools = callPackage ../applications/audio/opus-tools { };
 
   orpie = callPackage ../applications/misc/orpie { };
@@ -22706,8 +22715,8 @@ in
     ffmpeg = ffmpeg_2;
   };
 
-  pcsx2 = pkgsi686Linux.callPackage ../misc/emulators/pcsx2 {
-    wxGTK = pkgsi686Linux.wxGTK30;
+  pcsx2 = callPackage ../misc/emulators/pcsx2 {
+    wxGTK = wxGTK30-gtk3;
   };
 
   pekwm = callPackage ../applications/window-managers/pekwm { };
@@ -23624,6 +23633,8 @@ in
   taskopen = callPackage ../applications/misc/taskopen { };
 
   tdesktop = qt5.callPackage ../applications/networking/instant-messengers/telegram/tdesktop { };
+
+  tektoncd-cli = callPackage ../applications/networking/cluster/tektoncd-cli { };
 
   telepathy-gabble = callPackage ../applications/networking/instant-messengers/telepathy/gabble { };
 
@@ -25326,6 +25337,12 @@ in
   openmw = libsForQt5.callPackage ../games/openmw { };
 
   openmw-tes3mp = libsForQt5.callPackage ../games/openmw/tes3mp.nix { };
+
+  portmod = callPackage ../games/portmod { };
+
+  tr-patcher = callPackage ../games/tr-patcher { };
+
+  tes3cmd = callPackage ../games/tes3cmd { };
 
   openraPackages = import ../games/openra pkgs;
 

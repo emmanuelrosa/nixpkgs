@@ -774,6 +774,8 @@ in {
 
   bap = callPackage ../development/python-modules/bap { bap = pkgs.ocaml-ng.ocamlPackages_4_07.bap; };
 
+  baron = callPackage ../development/python-modules/baron { };
+
   base58 = callPackage ../development/python-modules/base58 { };
 
   baselines = callPackage ../development/python-modules/baselines { };
@@ -2872,6 +2874,8 @@ in {
   else
     callPackage ../development/python-modules/imbalanced-learn { };
 
+  imdbpy = callPackage ../development/python-modules/imdbpy { };
+
   img2pdf = callPackage ../development/python-modules/img2pdf { };
 
   imgaug = callPackage ../development/python-modules/imgaug { };
@@ -4364,6 +4368,8 @@ in {
 
   pathtools = callPackage ../development/python-modules/pathtools { };
 
+  patool = callPackage ../development/python-modules/patool { };
+
   patsy = callPackage ../development/python-modules/patsy { };
 
   paver = callPackage ../development/python-modules/paver { };
@@ -5016,6 +5022,8 @@ in {
 
   pygmo = callPackage ../development/python-modules/pygmo { };
 
+  pygmt = callPackage ../development/python-modules/pygmt { };
+
   pygobject2 = callPackage ../development/python-modules/pygobject { inherit (pkgs) pkgconfig; };
 
   pygobject3 = callPackage ../development/python-modules/pygobject/3.nix { inherit (pkgs) meson pkgconfig; };
@@ -5258,6 +5266,8 @@ in {
   pyparsing = callPackage ../development/python-modules/pyparsing { };
 
   pyparted = callPackage ../development/python-modules/pyparted { };
+
+  pypblib = callPackage ../development/python-modules/pypblib { };
 
   pypcap = callPackage ../development/python-modules/pypcap { };
 
@@ -5835,6 +5845,8 @@ in {
 
   python-rtmidi = callPackage ../development/python-modules/python-rtmidi { };
 
+  python-sat = callPackage ../development/python-modules/python-sat { };
+
   python-simple-hipchat = callPackage ../development/python-modules/python-simple-hipchat { };
   python_simple_hipchat = self.python-simple-hipchat;
 
@@ -6103,6 +6115,8 @@ in {
   recaptcha_client = callPackage ../development/python-modules/recaptcha_client { };
 
   recommonmark = callPackage ../development/python-modules/recommonmark { };
+
+  redbaron = callPackage ../development/python-modules/redbaron { };
 
   redis = callPackage ../development/python-modules/redis { };
 
@@ -6384,6 +6398,16 @@ in {
     src = oldAttrs.src.override {
       inherit version;
       sha256 = "02iqb7ws7fw5fd1a83hx705pzrw1imj7z0bphjsl4bfvw254xgv4";
+    };
+    doCheck = false;
+    disabled = !isPy3k;
+  });
+
+  scipy_1_4 = self.scipy.overridePythonAttrs (oldAttrs: rec {
+    version = "1.4.1";
+    src = oldAttrs.src.override {
+      inherit version;
+      sha256 = "0ndw7zyxd2dj37775mc75zm4fcyiipnqxclc45mkpxy8lvrvpqfy";
     };
     doCheck = false;
     disabled = !isPy3k;

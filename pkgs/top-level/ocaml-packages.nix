@@ -539,6 +539,8 @@ let
 
     minisat = callPackage ../development/ocaml-modules/minisat { };
 
+    mirage-bootvar-unix = callPackage ../development/ocaml-modules/mirage-bootvar-unix { };
+
     mirage-clock = callPackage ../development/ocaml-modules/mirage-clock { };
 
     mirage-clock-unix = callPackage ../development/ocaml-modules/mirage-clock/unix.nix { };
@@ -562,6 +564,8 @@ let
     mirage-fs = callPackage ../development/ocaml-modules/mirage-fs { };
 
     mirage-kv = callPackage ../development/ocaml-modules/mirage-kv { };
+
+    mirage-net = callPackage ../development/ocaml-modules/mirage-net { };
 
     mirage-protocols = callPackage ../development/ocaml-modules/mirage-protocols { };
 
@@ -749,6 +753,8 @@ let
     ounit = callPackage ../development/ocaml-modules/ounit { };
 
     ounit2 = callPackage ../development/ocaml-modules/ounit2 { };
+
+    parse-argv = callPackage ../development/ocaml-modules/parse-argv { };
 
     pgsolver = callPackage ../development/ocaml-modules/pgsolver { };
 

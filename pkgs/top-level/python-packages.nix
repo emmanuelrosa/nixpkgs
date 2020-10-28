@@ -1597,7 +1597,13 @@ in {
 
   distutils_extra = callPackage ../development/python-modules/distutils_extra { };
 
-  django_2_2 = callPackage ../development/python-modules/django/2_2.nix { };
+  django = self.django_2;
+
+  # Current LTS
+  django_2 = callPackage ../development/python-modules/django/2.nix { };
+
+  # Current latest
+  django_3 = callPackage ../development/python-modules/django/3.nix { };
 
   django-allauth = callPackage ../development/python-modules/django-allauth { };
 
@@ -1656,8 +1662,6 @@ in {
 
   django-logentry-admin = callPackage ../development/python-modules/django-logentry-admin { };
 
-  django_lts = self.django_2_2;
-
   django-mailman3 = callPackage ../development/python-modules/django-mailman3 { };
 
   django_modelcluster = callPackage ../development/python-modules/django_modelcluster { };
@@ -1703,8 +1707,6 @@ in {
   django_reversion = callPackage ../development/python-modules/django_reversion { };
 
   django-sampledatahelper = callPackage ../development/python-modules/django-sampledatahelper { };
-
-  django = self.django_lts;
 
   django-sesame = callPackage ../development/python-modules/django-sesame { };
 
@@ -2397,6 +2399,8 @@ in {
 
   gmusicapi = callPackage ../development/python-modules/gmusicapi { };
 
+  gntp = callPackage ../development/python-modules/gntp { };
+
   gnureadline = callPackage ../development/python-modules/gnureadline { };
 
   gnutls = callPackage ../development/python-modules/gnutls { };
@@ -2568,7 +2572,7 @@ in {
 
   grappelli_safe = callPackage ../development/python-modules/grappelli_safe { };
 
-  graspy = callPackage ../development/python-modules/graspy { };
+  graspologic = callPackage ../development/python-modules/graspologic { };
 
   greatfet = callPackage ../development/python-modules/greatfet { };
 
@@ -4495,6 +4499,8 @@ in {
     };
 
   pims = callPackage ../development/python-modules/pims { };
+
+  pinboard = callPackage ../development/python-modules/pinboard { };
 
   pint = callPackage ../development/python-modules/pint { };
 
@@ -6633,6 +6639,8 @@ in {
   smugline = callPackage ../development/python-modules/smugline { };
 
   smugpy = callPackage ../development/python-modules/smugpy { };
+
+  snack = toPythonModule (pkgs.newt.override { inherit (self) python; });
 
   snakebite = callPackage ../development/python-modules/snakebite { };
 

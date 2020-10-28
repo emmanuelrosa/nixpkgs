@@ -1389,7 +1389,7 @@ in
   tensor = libsForQt5.callPackage ../applications/networking/instant-messengers/tensor { };
 
   libtensorflow-bin = callPackage ../development/libraries/science/math/tensorflow/bin.nix {
-    cudaSupport = pkgs.config.cudaSupport or false;
+    cudaSupport = config.cudaSupport or false;
     inherit (linuxPackages) nvidia_x11;
     cudatoolkit = cudatoolkit_10_0;
     cudnn = cudnn_cudatoolkit_10_0;
@@ -1402,7 +1402,7 @@ in
 
   libtorch-bin = callPackage ../development/libraries/science/math/libtorch/bin.nix {
     inherit (linuxPackages) nvidia_x11;
-    cudaSupport = pkgs.config.cudaSupport or false;
+    cudaSupport = config.cudaSupport or false;
   };
 
   behdad-fonts = callPackage ../data/fonts/behdad-fonts { };
@@ -2563,7 +2563,9 @@ in
     inherit (llvmPackages) openmp;
   };
 
-  bacula = callPackage ../tools/backup/bacula { };
+  bacula = callPackage ../tools/backup/bacula {
+    inherit (darwin.apple_sdk.frameworks) CoreFoundation IOKit;
+  };
 
   bareos = callPackage ../tools/backup/bareos { };
 
@@ -3440,6 +3442,8 @@ in
   wtype = callPackage ../tools/wayland/wtype { };
 
   wrangler = callPackage ../development/tools/wrangler { };
+
+  wshowkeys = callPackage ../tools/wayland/wshowkeys { };
 
   xkcdpass = with pythonPackages; toPythonApplication xkcdpass;
 
@@ -5081,7 +5085,7 @@ in
 
   netsniff-ng = callPackage ../tools/networking/netsniff-ng { };
 
-  next = callPackage ../applications/networking/browsers/next { };
+  nyxt = callPackage ../applications/networking/browsers/nyxt { };
 
   nfpm = callPackage ../tools/package-management/nfpm { };
 
@@ -6282,7 +6286,7 @@ in
 
   pfetch = callPackage ../tools/misc/pfetch { };
 
-  pfstools = callPackage ../tools/graphics/pfstools { };
+  pfstools = libsForQt5.callPackage ../tools/graphics/pfstools { };
 
   philter = callPackage ../tools/networking/philter { };
 
@@ -6615,6 +6619,8 @@ in
 
   rc = callPackage ../shells/rc { };
 
+  rcon = callPackage ../tools/networking/rcon { };
+
   rdbtools = callPackage ../development/tools/rdbtools { python = python3; };
 
   rdma-core = callPackage ../os-specific/linux/rdma-core { };
@@ -6801,7 +6807,9 @@ in
     inherit (darwin.apple_sdk.frameworks) Security;
   };
 
-  rustscan = callPackage ../tools/security/rustscan { };
+  rustscan = callPackage ../tools/security/rustscan {
+    inherit (darwin.apple_sdk.frameworks) Security;
+  };
 
   rw = callPackage ../tools/misc/rw { };
 
@@ -11169,7 +11177,7 @@ in
   gradle_4_10 = res.gradleGen.gradle_4_10;
   gradle_4 = gradle_4_10;
   gradle_5 = res.gradleGen.gradle_5_6;
-  gradle_6 = res.gradleGen.gradle_6_6;
+  gradle_6 = res.gradleGen.gradle_6_7;
 
   gperf = callPackage ../development/tools/misc/gperf { };
   # 3.1 changed some parameters from int to size_t, leading to mismatches.
@@ -14656,6 +14664,8 @@ in
   nntp-proxy = callPackage ../applications/networking/nntp-proxy { };
 
   non = callPackage ../applications/audio/non { };
+
+  noise-suppression-for-voice = callPackage ../development/libraries/noise-suppression-for-voice { };
 
   ntl = callPackage ../development/libraries/ntl { };
 
@@ -20124,6 +20134,8 @@ in
 
   copyq = libsForQt514.callPackage ../applications/misc/copyq { };
 
+  corectrl = libsForQt5.callPackage ../applications/misc/corectrl { };
+
   coriander = callPackage ../applications/video/coriander {
     inherit (gnome2) libgnomeui GConf;
   };
@@ -21261,6 +21273,8 @@ in
   lwm = callPackage ../applications/window-managers/lwm { };
 
   musikcube = callPackage ../applications/audio/musikcube {};
+
+  pinboard = with python3Packages; toPythonApplication pinboard;
 
   pinboard-notes-backup = haskell.lib.overrideCabal
     (haskell.lib.generateOptparseApplicativeCompletion "pnbackup"
@@ -23915,6 +23929,8 @@ in
 
   vimacs = callPackage ../applications/editors/vim/vimacs.nix { };
 
+  vimv = callPackage ../tools/misc/vimv/default.nix { };
+
   qpdfview = libsForQt514.callPackage ../applications/misc/qpdfview {};
 
   qtile = callPackage ../applications/window-managers/qtile {
@@ -24381,18 +24397,14 @@ in
     gtk = gtk2;
   };
 
-  kodiPlain = callPackage ../applications/video/kodi {
-    jre = jre8; # TODO: remove override https://github.com/NixOS/nixpkgs/pull/89731
-  };
+  kodiPlain = callPackage ../applications/video/kodi { };
 
   kodiPlainWayland = callPackage ../applications/video/kodi {
     useWayland = true;
-    jre = jre8; # TODO: remove override https://github.com/NixOS/nixpkgs/pull/89731
   };
 
   kodiGBM = callPackage ../applications/video/kodi {
     useGbm = true;
-    jre = jre8; # TODO: remove override https://github.com/NixOS/nixpkgs/pull/89731
   };
 
   kodiPlugins = recurseIntoAttrs (callPackage ../applications/video/kodi/plugins.nix {});
@@ -24870,9 +24882,7 @@ in
 
   arena = callPackage ../games/arena {};
 
-  arx-libertatis = libsForQt5.callPackage ../games/arx-libertatis {
-    stdenv = gcc6Stdenv;
-  };
+  arx-libertatis = libsForQt5.callPackage ../games/arx-libertatis { };
 
   asc = callPackage ../games/asc {
     lua = lua5_1;
@@ -26694,7 +26704,7 @@ in
     stdenv = gcc7Stdenv;
     inherit (linuxPackages) nvidia_x11;
     opencv3 = opencv3WithoutCuda; # Used only for image loading.
-    cudaSupport = pkgs.config.cudaSupport or false;
+    cudaSupport = config.cudaSupport or false;
   };
 
   ecm = callPackage ../applications/science/math/ecm { };

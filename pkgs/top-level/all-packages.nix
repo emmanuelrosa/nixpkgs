@@ -669,10 +669,112 @@ in
 
   albert = libsForQt5.callPackage ../applications/misc/albert {};
 
-  alacritty = callPackage ../applications/misc/alacritty {
+  ### APPLICATIONS/TERMINAL-EMULATORS
+
+  alacritty = callPackage ../applications/terminal-emulators/alacritty {
     inherit (xorg) libXcursor libXxf86vm libXi;
     inherit (darwin.apple_sdk.frameworks) AppKit CoreGraphics CoreServices CoreText Foundation OpenGL;
   };
+
+  aminal = callPackage ../applications/terminal-emulators/aminal {
+    inherit (darwin.apple_sdk.frameworks) Carbon Cocoa Kernel;
+  };
+
+  cool-retro-term = libsForQt5.callPackage ../applications/terminal-emulators/cool-retro-term { };
+
+  eterm = callPackage ../applications/terminal-emulators/eterm { };
+
+  evilvte = callPackage ../applications/terminal-emulators/evilvte (config.evilvte or {});
+
+  foot = callPackage ../applications/terminal-emulators/foot { };
+
+  guake = callPackage ../applications/terminal-emulators/guake { };
+
+  havoc = callPackage ../applications/terminal-emulators/havoc { };
+
+  hyper = callPackage ../applications/terminal-emulators/hyper { };
+
+  iterm2 = callPackage ../applications/terminal-emulators/iterm2 {};
+
+  kitty = callPackage ../applications/terminal-emulators/kitty {
+    harfbuzz = harfbuzz.override { withCoreText = stdenv.isDarwin; };
+    inherit (darwin.apple_sdk.frameworks) Cocoa CoreGraphics Foundation IOKit Kernel OpenGL;
+  };
+
+  lilyterm = callPackage ../applications/terminal-emulators/lilyterm {
+    inherit (gnome2) vte;
+    gtk = gtk2;
+    flavour = "stable";
+  };
+
+  lilyterm-git = lilyterm.override {
+    flavour = "git";
+  };
+
+  lxterminal = callPackage ../applications/terminal-emulators/lxterminal { };
+
+  microcom = callPackage ../applications/terminal-emulators/microcom { };
+
+  mlterm = callPackage ../applications/terminal-emulators/mlterm {
+    libssh2 = null;
+    openssl = null;
+  };
+
+  mrxvt = callPackage ../applications/terminal-emulators/mrxvt { };
+
+  nimmm = callPackage ../applications/terminal-emulators/nimmm { };
+
+  roxterm = callPackage ../applications/terminal-emulators/roxterm { };
+
+  rxvt = callPackage ../applications/terminal-emulators/rxvt { };
+
+  rxvt-unicode = callPackage ../applications/terminal-emulators/rxvt-unicode/wrapper.nix { };
+
+  rxvt-unicode-plugins = import ../applications/terminal-emulators/rxvt-unicode-plugins { inherit callPackage; };
+
+  rxvt-unicode-unwrapped = callPackage ../applications/terminal-emulators/rxvt-unicode { };
+
+  sakura = callPackage ../applications/terminal-emulators/sakura { };
+
+  st = callPackage ../applications/terminal-emulators/st {
+    conf = config.st.conf or null;
+    patches = config.st.patches or [];
+    extraLibs = config.st.extraLibs or [];
+  };
+  xst = callPackage ../applications/terminal-emulators/st/xst.nix { };
+
+  stupidterm = callPackage ../applications/terminal-emulators/stupidterm {
+    gtk = gtk3;
+  };
+
+  terminator = callPackage ../applications/terminal-emulators/terminator { };
+
+  terminus = callPackage ../applications/terminal-emulators/terminus { };
+
+  termite = callPackage ../applications/terminal-emulators/termite/wrapper.nix {
+    termite = termite-unwrapped;
+  };
+  termite-unwrapped = callPackage ../applications/terminal-emulators/termite { };
+
+  termonad-with-packages = callPackage ../applications/terminal-emulators/termonad {
+    inherit (haskellPackages) ghcWithPackages;
+  };
+
+  tilda = callPackage ../applications/terminal-emulators/tilda {
+    gtk = gtk3;
+  };
+
+  tilix = callPackage ../applications/terminal-emulators/tilix { };
+
+  wayst = callPackage ../applications/terminal-emulators/wayst { };
+
+  x3270 = callPackage ../applications/terminal-emulators/x3270 { };
+
+  xterm = callPackage ../applications/terminal-emulators/xterm { };
+
+  xtermcontrol = callPackage ../applications/terminal-emulators/xtermcontrol {};
+
+  yaft = callPackage ../applications/terminal-emulators/yaft { };
 
   aldo = callPackage ../applications/radio/aldo { };
 
@@ -2976,8 +3078,6 @@ in
 
   cpcfs = callPackage ../tools/filesystems/cpcfs { };
 
-  cool-retro-term = libsForQt5.callPackage ../applications/misc/cool-retro-term { };
-
   coreutils = callPackage ../tools/misc/coreutils { };
   coreutils-full = coreutils.override { minimal = false; };
   coreutils-prefixed = coreutils.override { withPrefix = true; singleBinary = false; };
@@ -3430,8 +3530,6 @@ in
   wallutils = callPackage ../tools/graphics/wallutils { };
 
   wayland-utils = callPackage ../tools/wayland/wayland-utils { };
-
-  wayst = callPackage ../applications/misc/wayst { };
 
   wev = callPackage ../tools/misc/wev { };
 
@@ -5477,8 +5575,6 @@ in
 
   mgba = libsForQt5.callPackage ../misc/emulators/mgba { };
 
-  microcom = callPackage ../applications/misc/microcom { };
-
   microserver = callPackage ../servers/microserver { };
 
   midisheetmusic = callPackage ../applications/audio/midisheetmusic { };
@@ -5830,8 +5926,6 @@ in
 
   nilfs-utils = callPackage ../tools/filesystems/nilfs-utils {};
 
-  nimmm = callPackage ../applications/misc/nimmm { };
-
   nitrogen = callPackage ../tools/X11/nitrogen {};
 
   nms = callPackage ../tools/misc/nms { };
@@ -5903,6 +5997,8 @@ in
   nssmdns = callPackage ../tools/networking/nss-mdns { };
 
   nwdiag = with python3Packages; toPythonApplication nwdiag;
+
+  nxdomain = python3.pkgs.callPackage ../tools/networking/nxdomain { };
 
   nxpmicro-mfgtools = callPackage ../development/tools/misc/nxpmicro-mfgtools { };
 
@@ -7347,6 +7443,8 @@ in
 
   tarsnapper = callPackage ../tools/backup/tarsnapper { };
 
+  tarssh = callPackage ../servers/tarssh { };
+
   tartube = callPackage ../applications/video/tartube { };
 
   tayga = callPackage ../tools/networking/tayga { };
@@ -7442,8 +7540,6 @@ in
   tie = callPackage ../development/tools/misc/tie { };
 
   tikzit = libsForQt5.callPackage ../tools/typesetting/tikzit { };
-
-  tilix = callPackage ../applications/misc/tilix { };
 
   tinc_pre = callPackage ../tools/networking/tinc/pre.nix {};
 
@@ -7771,6 +7867,8 @@ in
   vit = callPackage ../applications/misc/vit { };
 
   viu = callPackage ../tools/graphics/viu { };
+
+  vix = callPackage ../tools/misc/vix { };
 
   vnc2flv = callPackage ../tools/video/vnc2flv {};
 
@@ -8156,8 +8254,6 @@ in
 
   clipnotify = callPackage ../tools/misc/clipnotify { };
 
-  x3270 = callPackage ../applications/misc/x3270 { };
-
   xclip = callPackage ../tools/misc/xclip { };
 
   xcur2png = callPackage ../tools/graphics/xcur2png { };
@@ -8243,8 +8339,6 @@ in
   xwinwrap = callPackage ../tools/X11/xwinwrap {};
 
   yafaray-core = callPackage ../tools/graphics/yafaray-core { };
-
-  yaft = callPackage ../applications/misc/yaft { };
 
   yarn = callPackage ../development/tools/yarn  { };
 
@@ -9606,7 +9700,7 @@ in
   ocsigen-i18n = callPackage ../development/tools/ocaml/ocsigen-i18n { };
 
   opa = callPackage ../development/compilers/opa {
-    ocamlPackages = ocaml-ng.ocamlPackages_4_02;
+    ocamlPackages = ocaml-ng.ocamlPackages_4_03;
   };
 
   opaline = callPackage ../development/tools/ocaml/opaline { };
@@ -14686,6 +14780,8 @@ in
   ntk = callPackage ../development/libraries/audio/ntk { };
 
   ntrack = callPackage ../development/libraries/ntrack { };
+
+  nuraft = callPackage ../development/libraries/nuraft { };
 
   nuspell = callPackage ../development/libraries/nuspell { };
   nuspellWithDicts = dicts: callPackage ../development/libraries/nuspell/wrapper.nix { inherit dicts; };
@@ -20103,6 +20199,8 @@ in
 
   clipgrab = libsForQt514.callPackage ../applications/video/clipgrab { };
 
+  clipcat = callPackage ../applications/misc/clipcat { };
+
   clipmenu = callPackage ../applications/misc/clipmenu { };
 
   clipit = callPackage ../applications/misc/clipit { };
@@ -20516,15 +20614,11 @@ in
 
   esniper = callPackage ../applications/networking/esniper { };
 
-  eterm = callPackage ../applications/misc/eterm { };
-
   eteroj.lv2 = libsForQt5.callPackage ../applications/audio/eteroj.lv2 { };
 
   etesync-dav = callPackage ../applications/misc/etesync-dav {};
 
   etherape = callPackage ../applications/networking/sniffers/etherape { };
-
-  evilvte = callPackage ../applications/misc/evilvte (config.evilvte or {});
 
   evilpixie = libsForQt514.callPackage ../applications/graphics/evilpixie { };
 
@@ -20629,8 +20723,6 @@ in
   fontpreview = callPackage ../applications/misc/fontpreview { };
 
   foo-yc20 = callPackage ../applications/audio/foo-yc20 { };
-
-  foot = callPackage ../applications/misc/foot { };
 
   fossil = callPackage ../applications/version-management/fossil { };
 
@@ -20923,8 +21015,6 @@ in
 
   gcalcli = callPackage ../applications/misc/gcalcli { };
 
-  havoc = callPackage ../applications/misc/havoc { };
-
   vcal = callPackage ../applications/misc/vcal { };
 
   gcolor2 = callPackage ../applications/graphics/gcolor2 { };
@@ -21142,8 +21232,6 @@ in
 
   gtk2fontsel = callPackage ../applications/misc/gtk2fontsel { };
 
-  guake = callPackage ../applications/misc/guake { };
-
   guardian-agent = callPackage ../tools/networking/guardian-agent { };
 
   guitone = callPackage ../applications/version-management/guitone {
@@ -21246,8 +21334,6 @@ in
 
   hydroxide = callPackage ../applications/networking/hydroxide { };
 
-  hyper = callPackage ../applications/misc/hyper { };
-
   hyper-haskell-server-with-packages = callPackage ../development/tools/haskell/hyper-haskell/server.nix {
     inherit (haskellPackages) ghcWithPackages;
     packages = self: with self; [];
@@ -21271,6 +21357,8 @@ in
   leftwm = callPackage ../applications/window-managers/leftwm { };
 
   lwm = callPackage ../applications/window-managers/lwm { };
+
+  marker = callPackage ../applications/editors/marker { };
 
   musikcube = callPackage ../applications/audio/musikcube {};
 
@@ -21691,11 +21779,6 @@ in
     ffmpeg = ffmpeg_2;
   };
 
-  kitty = callPackage ../applications/misc/kitty {
-    harfbuzz = harfbuzz.override { withCoreText = stdenv.isDarwin; };
-    inherit (darwin.apple_sdk.frameworks) Cocoa CoreGraphics Foundation IOKit Kernel OpenGL;
-  };
-
   kiwix = callPackage ../applications/misc/kiwix { };
 
   klayout = libsForQt5.callPackage ../applications/misc/klayout { };
@@ -21924,16 +22007,6 @@ in
   };
 
   jftui = callPackage ../applications/video/jftui { };
-
-  lilyterm = callPackage ../applications/misc/lilyterm {
-    inherit (gnome2) vte;
-    gtk = gtk2;
-    flavour = "stable";
-  };
-
-  lilyterm-git = lilyterm.override {
-    flavour = "git";
-  };
 
   lime = callPackage ../development/libraries/lime { };
 
@@ -22254,8 +22327,6 @@ in
   };
 
   mrpeach = callPackage ../applications/audio/pd-plugins/mrpeach { };
-
-  mrxvt = callPackage ../applications/misc/mrxvt { };
 
   mtpaint = callPackage ../applications/graphics/mtpaint { };
 
@@ -22755,6 +22826,10 @@ in
     inherit (gst_all_1) gstreamer gst-plugins-base gst-plugins-good gst-libav;
   };
 
+  peaclock = callPackage ../applications/misc/peaclock {
+    stdenv = gccStdenv;
+  };
+
   peek = callPackage ../applications/video/peek { };
 
   pflask = callPackage ../os-specific/linux/pflask {};
@@ -23206,14 +23281,6 @@ in
 
   runc = callPackage ../applications/virtualization/runc {};
 
-  rxvt = callPackage ../applications/misc/rxvt { };
-
-  rxvt-unicode = callPackage ../applications/misc/rxvt-unicode/wrapper.nix { };
-
-  rxvt-unicode-unwrapped = callPackage ../applications/misc/rxvt-unicode { };
-
-  rxvt-unicode-plugins = import ../applications/misc/rxvt-unicode-plugins { inherit callPackage; };
-
   uade123 = callPackage ../applications/audio/uade123 {};
 
   udevil = callPackage ../applications/misc/udevil {};
@@ -23221,8 +23288,6 @@ in
   udiskie = callPackage ../applications/misc/udiskie { };
 
   sacc = callPackage ../applications/networking/gopher/sacc { };
-
-  sakura = callPackage ../applications/misc/sakura { };
 
   sameboy = callPackage ../misc/emulators/sameboy { };
 
@@ -23320,10 +23385,6 @@ in
     ncurses = ncurses5;
   };
 
-  stupidterm = callPackage ../applications/misc/stupidterm {
-    gtk = gtk3;
-  };
-
   styx = callPackage ../applications/misc/styx { };
 
   tecoc = callPackage ../applications/editors/tecoc { };
@@ -23333,14 +23394,6 @@ in
   wavebox = callPackage ../applications/networking/instant-messengers/wavebox { };
 
   sonic-pi = libsForQt5.callPackage ../applications/audio/sonic-pi { };
-
-  st = callPackage ../applications/misc/st {
-    conf = config.st.conf or null;
-    patches = config.st.patches or [];
-    extraLibs = config.st.extraLibs or [];
-  };
-
-  xst = callPackage ../applications/misc/st/xst.nix { };
 
   stag = callPackage ../applications/misc/stag {
     curses = ncurses;
@@ -23480,7 +23533,11 @@ in
 
   libspotify = callPackage ../development/libraries/libspotify (config.libspotify or {});
 
-  sourcetrail = callPackage ../development/tools/sourcetrail { };
+  sourcetrail = libsForQt5.callPackage ../development/tools/sourcetrail {
+    jdk = jdk8;
+    llvmPackages = llvmPackages_10;
+    pythonPackages = python3Packages;
+  };
 
   spotifywm = callPackage ../applications/audio/spotifywm { };
 
@@ -23670,21 +23727,7 @@ in
 
   terminal-notifier = callPackage ../applications/misc/terminal-notifier {};
 
-  terminator = callPackage ../applications/misc/terminator { };
-
-  terminus = callPackage ../applications/misc/terminus { };
-
   tty-solitaire = callPackage ../applications/misc/tty-solitaire { };
-
-  lxterminal = callPackage ../applications/misc/lxterminal { };
-
-  aminal = callPackage ../applications/misc/aminal {
-    inherit (darwin.apple_sdk.frameworks) Carbon Cocoa Kernel;
-  };
-
-  termite-unwrapped = callPackage ../applications/misc/termite { };
-
-  termite = callPackage ../applications/misc/termite/wrapper.nix { termite = termite-unwrapped; };
 
   termtosvg = callPackage ../tools/misc/termtosvg { };
 
@@ -23728,10 +23771,6 @@ in
   ticpp = callPackage ../development/libraries/ticpp { };
 
   tig = gitAndTools.tig;
-
-  tilda = callPackage ../applications/misc/tilda {
-    gtk = gtk3;
-  };
 
   timbreid = callPackage ../applications/audio/pd-plugins/timbreid {
     fftw = fftwSinglePrec;
@@ -23939,8 +23978,11 @@ in
 
   vimpc = callPackage ../applications/audio/vimpc { };
 
-  wrapNeovim = callPackage ../applications/editors/neovim/wrapper.nix { };
-
+  # this is a lower-level alternative to wrapNeovim conceived to handle
+  # more usecases when wrapping neovim. The interface is being actively worked on
+  # so expect breakage. use wrapNeovim instead if you want a stable alternative
+  wrapNeovimUnstable = callPackage ../applications/editors/neovim/wrapper.nix { };
+  wrapNeovim = neovimUtils.legacyWrapper;
   neovim-unwrapped = callPackage ../applications/editors/neovim {
     lua =
       # neovim doesn't work with luajit on aarch64: https://github.com/neovim/neovim/issues/7879
@@ -23948,6 +23990,7 @@ in
       luajit;
   };
 
+  neovimUtils = callPackage ../applications/editors/neovim/utils.nix { };
   neovim = wrapNeovim neovim-unwrapped { };
 
   neovim-qt = libsForQt5.callPackage ../applications/editors/neovim/qt.nix { };
@@ -24581,19 +24624,6 @@ in
   xssproxy = callPackage ../misc/screensavers/xssproxy { };
 
   xsynth_dssi = callPackage ../applications/audio/xsynth-dssi { };
-
-  xterm = callPackage ../applications/misc/xterm { };
-
-  mlterm = callPackage ../applications/misc/mlterm {
-    libssh2 = null;
-    openssl = null;
-  };
-
-  roxterm = callPackage ../applications/misc/roxterm { };
-
-  termonad-with-packages = callPackage ../applications/misc/termonad {
-    inherit (haskellPackages) ghcWithPackages;
-  };
 
   xtrace = callPackage ../tools/X11/xtrace { };
 
@@ -25514,7 +25544,7 @@ in
 
   sfrotz = callPackage ../games/sfrotz { };
 
-  sgtpuzzles = callPackage (callPackage ../games/sgt-puzzles) { };
+  sgtpuzzles = callPackage ../games/sgt-puzzles { };
 
   shattered-pixel-dungeon = callPackage ../games/shattered-pixel-dungeon { };
 
@@ -28120,8 +28150,6 @@ in
 
   imatix_gsl = callPackage ../development/tools/imatix_gsl {};
 
-  iterm2 = callPackage ../applications/misc/iterm2 {};
-
   sccache = callPackage ../development/tools/misc/sccache { };
 
   sequeler = callPackage ../applications/misc/sequeler { };
@@ -28184,8 +28212,6 @@ in
   undaemonize = callPackage ../tools/system/undaemonize {};
 
   houdini = callPackage ../applications/misc/houdini {};
-
-  xtermcontrol = callPackage ../applications/misc/xtermcontrol {};
 
   openfst = callPackage ../development/libraries/openfst {};
 

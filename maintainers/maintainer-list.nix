@@ -5689,12 +5689,6 @@
     githubId = 1387206;
     name = "Mike Sperber";
   };
-  mildlyincompetent = {
-    email = "nix@kch.dev";
-    github = "mildlyincompetent";
-    githubId = 19479662;
-    name = "Kajetan Champlewski";
-  };
   millerjason = {
     email = "mailings-github@millerjason.com";
     github = "millerjason";
@@ -6618,6 +6612,12 @@
     github = "ip1981";
     githubId = 131844;
     name = "Igor Pashev";
+  };
+  pasqui23 = {
+    email = "p3dimaria@hotmail.it";
+    github = "pasqui23";
+    githubId = 6931743;
+    name = "pasqui23";
   };
   patryk27 = {
     email = "wychowaniec.patryk@gmail.com";
@@ -9340,7 +9340,7 @@
     email = "worldofpeace@protonmail.ch";
     github = "worldofpeace";
     githubId = 28888242;
-    name = "worldofpeace";
+    name = "WORLDofPEACE";
   };
   wscott = {
     email = "wsc9tt@gmail.com";

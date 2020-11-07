@@ -1379,6 +1379,8 @@ in {
   else
     callPackage ../development/python-modules/cryptography/vectors.nix { };
 
+  crytic-compile = callPackage ../development/python-modules/crytic-compile { };
+
   csscompressor = callPackage ../development/python-modules/csscompressor { };
 
   cssmin = callPackage ../development/python-modules/cssmin { };
@@ -1808,8 +1810,6 @@ in {
   dopy = callPackage ../development/python-modules/dopy { };
 
   dot2tex = callPackage ../development/python-modules/dot2tex { inherit (pkgs) graphviz; };
-
-  dotnetcore2 = callPackage ../development/python-modules/dotnetcore2 { inherit (pkgs) substituteAll dotnet-sdk; };
 
   dparse = callPackage ../development/python-modules/dparse { };
 
@@ -2469,6 +2469,8 @@ in {
   google_cloud_error_reporting = callPackage ../development/python-modules/google_cloud_error_reporting { };
 
   google_cloud_firestore = callPackage ../development/python-modules/google_cloud_firestore { };
+
+  google-cloud-iam = callPackage ../development/python-modules/google-cloud-iam { };
 
   google_cloud_iot = callPackage ../development/python-modules/google_cloud_iot { };
 
@@ -5289,6 +5291,8 @@ in {
 
   pyparted = callPackage ../development/python-modules/pyparted { };
 
+  pypass = callPackage ../development/python-modules/pypass { };
+
   pypblib = callPackage ../development/python-modules/pypblib { };
 
   pypcap = callPackage ../development/python-modules/pypcap { };
@@ -6829,6 +6833,8 @@ in {
   sqlite3dbm = callPackage ../development/python-modules/sqlite3dbm { };
 
   sqlitedict = callPackage ../development/python-modules/sqlitedict { };
+
+  sqlite-utils = callPackage ../development/python-modules/sqlite-utils { };
 
   sqlmap = callPackage ../development/python-modules/sqlmap { };
 

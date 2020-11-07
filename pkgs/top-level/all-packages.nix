@@ -321,6 +321,8 @@ in
 
   fetchMavenArtifact = callPackage ../build-support/fetchmavenartifact { };
 
+  find-cursor = callPackage ../tools/X11/find-cursor { };
+
   prefer-remote-fetch = import ../build-support/prefer-remote-fetch;
 
   global-platform-pro = callPackage ../development/tools/global-platform-pro/default.nix { };
@@ -2343,7 +2345,7 @@ in
 
   medusa = callPackage ../tools/security/medusa { };
 
-  megasync = libsForQt514.callPackage ../applications/misc/megasync { };
+  megasync = libsForQt515.callPackage ../applications/misc/megasync { };
 
   megacmd = callPackage ../applications/misc/megacmd { };
 
@@ -2468,6 +2470,8 @@ in
   phoronix-test-suite = callPackage ../tools/misc/phoronix-test-suite { };
 
   photon = callPackage ../tools/networking/photon { };
+
+  piglit = callPackage ../tools/graphics/piglit { };
 
   playerctl = callPackage ../tools/audio/playerctl { };
 
@@ -4947,6 +4951,8 @@ in
 
   kexpand = callPackage ../development/tools/kexpand { };
 
+  kent = callPackage ../applications/science/biology/kent { };
+
   keybase = callPackage ../tools/security/keybase {
     # Reasoning for the inherited apple_sdk.frameworks:
     # 1. specific compiler errors about: AVFoundation, AudioToolbox, MediaToolbox
@@ -5485,6 +5491,7 @@ in
   mailnagWithPlugins = mailnag.withPlugins(
     builtins.attrValues mailnag.availablePlugins
   );
+  bubblemail = callPackage ../applications/networking/mailreaders/bubblemail { };
 
   mailsend = callPackage ../tools/networking/mailsend { };
 
@@ -7566,6 +7573,8 @@ in
   tinyproxy = callPackage ../tools/networking/tinyproxy {};
 
   tio = callPackage ../tools/misc/tio { };
+
+  tiv = callPackage ../applications/misc/tiv { };
 
   tldr = callPackage ../tools/misc/tldr { };
 
@@ -9928,10 +9937,12 @@ in
   sbcl_2_0_9 = callPackage ../development/compilers/sbcl/2.0.9.nix {};
   sbcl = callPackage ../development/compilers/sbcl {};
 
-  scala_2_10 = callPackage ../development/compilers/scala/2.10.nix { };
-  scala_2_11 = callPackage ../development/compilers/scala/2.11.nix { };
-  scala_2_12 = callPackage ../development/compilers/scala/2.12.nix { jre = jre8; };
-  scala_2_13 = callPackage ../development/compilers/scala/2.13.nix { jre = jre8; };
+  inherit (callPackage ../development/compilers/scala/2.x.nix { jre = jre8; })
+    scala_2_10
+    scala_2_11
+    scala_2_12
+    scala_2_13;
+
   scala = scala_2_13;
 
   metal = callPackage ../development/libraries/metal { };
@@ -9958,6 +9969,8 @@ in
   solc = callPackage ../development/compilers/solc { };
 
   souffle = callPackage ../development/compilers/souffle { };
+
+  spasm-ng = callPackage ../development/compilers/spasm-ng { };
 
   spirv-llvm-translator = callPackage ../development/compilers/spirv-llvm-translator { };
 
@@ -10306,19 +10319,28 @@ in
 
   pachyderm = callPackage ../applications/networking/cluster/pachyderm { };
 
-  php = php74;
 
+  # PHP interpreters, packages and extensions.
+  #
+  # Set default PHP interpreter, extensions and packages
+  php = php74;
+  phpExtensions = php74Extensions;
   phpPackages = php74Packages;
-  php73Packages = recurseIntoAttrs php73.packages;
+
+  # Import PHP74 interpreter, extensions and packages
+  php74 = callPackage ../development/interpreters/php/7.4.nix {
+    stdenv = if stdenv.cc.isClang then llvmPackages_6.stdenv else stdenv;
+  };
+  php74Extensions = recurseIntoAttrs php74.extensions;
   php74Packages = recurseIntoAttrs php74.packages;
 
-  phpExtensions = php74Extensions;
-  php73Extensions = recurseIntoAttrs php73.extensions;
-  php74Extensions = recurseIntoAttrs php74.extensions;
-
-  inherit (callPackage ../development/interpreters/php {
+  # Import PHP73 interpreter, extensions and packages
+  php73 = callPackage ../development/interpreters/php/7.3.nix {
     stdenv = if stdenv.cc.isClang then llvmPackages_6.stdenv else stdenv;
-  }) php74 php73;
+  };
+  php73Extensions = recurseIntoAttrs php73.extensions;
+  php73Packages = recurseIntoAttrs php73.packages;
+
 
   picoc = callPackage ../development/interpreters/picoc {};
 
@@ -11714,6 +11736,8 @@ in
   rr = callPackage ../development/tools/analysis/rr { };
   rr-unstable = callPackage ../development/tools/analysis/rr/unstable.nix { }; # This is a temporary attribute, please see the corresponding file for details.
 
+  rufo = callPackage ../development/tools/rufo { };
+
   samurai = callPackage ../development/tools/build-managers/samurai { };
 
   saleae-logic = callPackage ../development/tools/misc/saleae-logic { };
@@ -11812,6 +11836,8 @@ in
   sqlcheck = callPackage ../development/tools/database/sqlcheck { };
 
   sqlitebrowser = libsForQt5.callPackage ../development/tools/database/sqlitebrowser { };
+
+  sqlite-utils = with python3Packages; toPythonApplication sqlite-utils;
 
   sqlite-web = callPackage ../development/tools/database/sqlite-web { };
 
@@ -16065,6 +16091,8 @@ in
     stdenv = gcc6Stdenv; # upstream code incompatible with gcc7
   };
 
+  waffle = callPackage ../development/libraries/waffle { };
+
   wally-cli = callPackage ../development/tools/wally-cli { };
 
   wavpack = callPackage ../development/libraries/wavpack { };
@@ -17211,6 +17239,7 @@ in
   prometheus-rabbitmq-exporter = callPackage ../servers/monitoring/prometheus/rabbitmq-exporter.nix { };
   prometheus-rtl_433-exporter = callPackage ../servers/monitoring/prometheus/rtl_433-exporter.nix { };
   prometheus-snmp-exporter = callPackage ../servers/monitoring/prometheus/snmp-exporter.nix { };
+  prometheus-sql-exporter = callPackage ../servers/monitoring/prometheus/sql-exporter.nix { };
   prometheus-tor-exporter = callPackage ../servers/monitoring/prometheus/tor-exporter.nix { };
   prometheus-statsd-exporter = callPackage ../servers/monitoring/prometheus/statsd-exporter.nix { };
   prometheus-surfboard-exporter = callPackage ../servers/monitoring/prometheus/surfboard-exporter.nix { };
@@ -19726,6 +19755,8 @@ in
 
   ttf-envy-code-r = callPackage ../data/fonts/ttf-envy-code-r {};
 
+  ttf-tw-moe = callPackage ../data/fonts/ttf-tw-moe { };
+
   twemoji-color-font = callPackage ../data/fonts/twemoji-color-font {
     inherit (nodePackages) svgo;
   };
@@ -20577,6 +20608,8 @@ in
   electrum-ltc = libsForQt5.callPackage ../applications/misc/electrum/ltc.nix { };
 
   elementary-planner = callPackage ../applications/office/elementary-planner { };
+
+  elf-dissector = libsForQt5.callPackage ../applications/misc/elf-dissector { };
 
   elinks = callPackage ../applications/networking/browsers/elinks { };
 
@@ -21446,6 +21479,8 @@ in
 
   musikcube = callPackage ../applications/audio/musikcube {};
 
+  pass-secret-service = callPackage ../applications/misc/pass-secret-service { };
+
   pinboard = with python3Packages; toPythonApplication pinboard;
 
   pinboard-notes-backup = haskell.lib.overrideCabal
@@ -21755,8 +21790,6 @@ in
   };
 
   k3s = callPackage ../applications/networking/cluster/k3s {};
-
-  k9copy = libsForQt514.callPackage ../applications/video/k9copy {};
 
   kail = callPackage ../tools/networking/kail {  };
 
@@ -22881,6 +22914,8 @@ in
   pflask = callPackage ../os-specific/linux/pflask {};
 
   photoqt = libsForQt5.callPackage ../applications/graphics/photoqt { };
+
+  photoflare = libsForQt5.callPackage ../applications/graphics/photoflare { };
 
   photoflow = callPackage ../applications/graphics/photoflow { };
 
@@ -27295,6 +27330,8 @@ in
   musly = callPackage ../applications/audio/musly { };
 
   mynewt-newt = callPackage ../tools/package-management/mynewt-newt { };
+
+  nar-serve = callPackage ../tools/nix/nar-serve { };
 
   inherit (callPackage ../tools/package-management/nix {
       storeDir = config.nix.storeDir or "/nix/store";

@@ -514,6 +514,12 @@
     githubId = 69135;
     name = "Andrea Bedini";
   };
+  andreasfelix = {
+    email = "fandreas@physik.hu-berlin.de";
+    github = "andreasfelix";
+    githubId = 24651767;
+    name = "Felix Andreas";
+  };
   andres = {
     email = "ksnixos@andres-loeh.de";
     github = "kosmikus";
@@ -3487,6 +3493,12 @@
     email = "t@larkery.com";
     name = "Tom Hinton";
   };
+  hjones2199 = {
+    email = "hjones2199@gmail.com";
+    github = "hjones2199";
+    githubId = 5525217;
+    name = "Hunter Jones";
+  };
   hkjn = {
     email = "me@hkjn.me";
     name = "Henrik Jonsson";
@@ -4283,6 +4295,12 @@
     github = "jshcmpbll";
     githubId = 16374374;
     name = "Joshua Campbell";
+  };
+  jshholland = {
+    email = "josh@inv.alid.pw";
+    github = "jshholland";
+    githubId = 107689;
+    name = "Josh Holland";
   };
   jtcoolen = {
     email = "jtcoolen@pm.me";

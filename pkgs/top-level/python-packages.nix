@@ -2070,7 +2070,10 @@ in {
 
   feedgenerator = callPackage ../development/python-modules/feedgenerator { inherit (pkgs) glibcLocales; };
 
-  feedparser = callPackage ../development/python-modules/feedparser { };
+  feedparser = if isPy3k then
+    callPackage ../development/python-modules/feedparser { }
+  else
+    callPackage ../development/python-modules/feedparser/5.nix { };
 
   fenics = callPackage ../development/libraries/science/math/fenics {
     inherit (pkgs) pkg-config;
@@ -3703,6 +3706,8 @@ in {
   else
     callPackage ../development/python-modules/markdown/3_1.nix { };
 
+  markdown-it-py = callPackage ../development/python-modules/markdown-it-py { };
+
   markdown-macros = callPackage ../development/python-modules/markdown-macros { };
 
   markdownsuperscript = callPackage ../development/python-modules/markdownsuperscript { };
@@ -4775,7 +4780,10 @@ in {
 
   pretend = callPackage ../development/python-modules/pretend { };
 
-  prettytable = callPackage ../development/python-modules/prettytable { };
+  prettytable = if isPy3k then
+    callPackage ../development/python-modules/prettytable { }
+  else
+    callPackage ../development/python-modules/prettytable/1.nix { };
 
   priority = callPackage ../development/python-modules/priority { };
 
@@ -5225,8 +5233,6 @@ in {
 
   pyipp = callPackage ../development/python-modules/pyipp { };
 
-  pyjade = callPackage ../development/python-modules/pyjade { };
-
   pyjet = callPackage ../development/python-modules/pyjet { };
 
   pyjks = callPackage ../development/python-modules/pyjks { };
@@ -5462,6 +5468,8 @@ in {
   pyptlib = callPackage ../development/python-modules/pyptlib { };
 
   pypubsub = callPackage ../development/python-modules/pypubsub { };
+
+  pypugjs = callPackage ../development/python-modules/pypugjs { };
 
   pyqrcode = callPackage ../development/python-modules/pyqrcode { };
 
@@ -7691,6 +7699,8 @@ in {
   vispy = callPackage ../development/python-modules/vispy { };
 
   vmprof = callPackage ../development/python-modules/vmprof { };
+
+  vncdo = callPackage ../development/python-modules/vncdo { };
 
   vobject = callPackage ../development/python-modules/vobject { };
 

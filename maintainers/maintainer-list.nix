@@ -384,6 +384,12 @@
     githubId = 2822871;
     name = "Alistair Bill";
   };
+  alirezameskin = {
+    email = "alireza.meskin@gmail.com";
+    github = "alirezameskin";
+    githubId = 36147;
+    name = "Alireza Meskin";
+  };
   alkeryn = {
     email = "plbraundev@gmail.com";
     github = "Alkeryn";
@@ -9899,6 +9905,12 @@
     github = "zraexy";
     githubId = 8100652;
     name = "David Mell";
+  };
+  ztzg = {
+    email = "dd@crosstwine.com";
+    github = "ztzg";
+    githubId = 393108;
+    name = "Damien Diederen";
   };
   zx2c4 = {
     email = "Jason@zx2c4.com";

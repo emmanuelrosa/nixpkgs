@@ -874,6 +874,8 @@ in
 
   arduino = arduino-core.override { withGui = true; };
 
+  arduino-ci = callPackage ../development/arduino/arduino-ci { };
+
   arduino-cli = callPackage ../development/arduino/arduino-cli { };
 
   arduino-core = callPackage ../development/arduino/arduino-core { };
@@ -2311,6 +2313,8 @@ in
   hyx = callPackage ../tools/text/hyx { };
 
   icdiff = callPackage ../tools/text/icdiff {};
+
+  inchi = callPackage ../development/libraries/inchi {};
 
   ifm = callPackage ../tools/graphics/ifm {};
 
@@ -5234,6 +5238,8 @@ in
 
   matrix-synapse-plugins = recurseIntoAttrs matrix-synapse.plugins;
 
+  matrix-synapse-tools = recurseIntoAttrs matrix-synapse.tools;
+
   matrix-appservice-slack = callPackage ../servers/matrix-synapse/matrix-appservice-slack {};
 
   matrix-appservice-discord = callPackage ../servers/matrix-appservice-discord { };
@@ -6377,6 +6383,8 @@ in
   pal = callPackage ../tools/misc/pal { };
 
   pandoc = callPackage ../development/tools/pandoc { };
+
+  pandoc-lua-filters = callPackage ../tools/misc/pandoc-lua-filters { };
 
   pamtester = callPackage ../tools/security/pamtester { };
 
@@ -8340,7 +8348,7 @@ in
 
   vmtouch = callPackage ../tools/misc/vmtouch { };
 
-  vncdo = callPackage ../tools/admin/vncdo { };
+  vncdo = with python3Packages; toPythonApplication vncdo;
 
   volumeicon = callPackage ../tools/audio/volumeicon { };
 
@@ -9385,6 +9393,8 @@ in
   stack = haskell.lib.justStaticExecutables haskellPackages.stack;
   hlint = haskell.lib.justStaticExecutables haskellPackages.hlint;
 
+  krank = haskell.lib.justStaticExecutables haskellPackages.krank;
+
   # We use a version built with an older compiler because of https://github.com/pikajude/stylish-cabal/issues/12.
   stylish-cabal = haskell.lib.justStaticExecutables haskell.packages.ghc865.stylish-cabal;
 
@@ -10344,7 +10354,10 @@ in
   clisp = callPackage ../development/interpreters/clisp { };
   clisp-tip = callPackage ../development/interpreters/clisp/hg.nix { };
 
-  clojure = callPackage ../development/interpreters/clojure { };
+  clojure = callPackage ../development/interpreters/clojure {
+    # set this to an LTS version of java
+    jdk = jdk11;
+  };
 
   clojure-lsp = callPackage ../development/tools/misc/clojure-lsp { };
 
@@ -11652,6 +11665,9 @@ in
   kind = callPackage ../development/tools/kind {  };
 
   khronos-ocl-icd-loader = callPackage ../development/libraries/khronos-ocl-icd-loader {  };
+
+
+  krew = callPackage ../development/tools/krew { };
 
   kube-aws = callPackage ../development/tools/kube-aws { };
 
@@ -18347,6 +18363,7 @@ in
       kernelPatches.bridge_stp_helper
       kernelPatches.request_key_helper
       kernelPatches.export_kernel_fpu_functions."5.3"
+      kernelPatches.export-rt-sched-migrate
     ];
   };
 
@@ -20249,8 +20266,6 @@ in
 
   ams-lv2 = callPackage ../applications/audio/ams-lv2 { };
 
-  amsn = callPackage ../applications/networking/instant-messengers/amsn { };
-
   androidStudioPackages = recurseIntoAttrs
     (callPackage ../applications/editors/android-studio {
       buildFHSUserEnv = buildFHSUserEnvBubblewrap;
@@ -20487,10 +20502,6 @@ in
   bombadillo = callPackage ../applications/networking/browsers/bombadillo { };
 
   bombono = callPackage ../applications/video/bombono {};
-
-  bomi = libsForQt5.callPackage ../applications/video/bomi {
-    ffmpeg = ffmpeg_2;
-  };
 
   bonzomatic = callPackage ../applications/editors/bonzomatic { };
 
@@ -22600,7 +22611,7 @@ in
 
   melmatcheq.lv2 = callPackage ../applications/audio/melmatcheq.lv2 { };
 
-  melonDS = callPackage ../misc/emulators/melonDS { };
+  melonDS = libsForQt5.callPackage ../misc/emulators/melonDS { };
 
   meme = callPackage ../applications/graphics/meme { };
 
@@ -23600,7 +23611,9 @@ in
 
   qtemu = libsForQt5.callPackage ../applications/virtualization/qtemu { };
 
-  qtox = libsForQt5.callPackage ../applications/networking/instant-messengers/qtox { };
+  qtox = libsForQt5.callPackage ../applications/networking/instant-messengers/qtox {
+    inherit (darwin.apple_sdk.frameworks) AVFoundation;
+  };
 
   qtpass = libsForQt5.callPackage ../applications/misc/qtpass { };
 
@@ -28264,8 +28277,6 @@ in
   termpdfpy = python3Packages.callPackage ../applications/misc/termpdf.py {};
 
   inherit (callPackage ../applications/networking/cluster/terraform { })
-    terraform_0_11
-    terraform_0_11-full
     terraform_0_12
     terraform_0_13
     terraform_0_14
@@ -28867,4 +28878,6 @@ in
   psftools = callPackage ../os-specific/linux/psftools {};
 
   lc3tools = callPackage ../development/tools/lc3tools {};
+
+  zktree = callPackage ../applications/misc/zktree {};
 }

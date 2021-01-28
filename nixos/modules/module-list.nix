@@ -349,6 +349,7 @@
   ./services/editors/emacs.nix
   ./services/editors/infinoted.nix
   ./services/games/factorio.nix
+  ./services/games/freeciv.nix
   ./services/games/minecraft-server.nix
   ./services/games/minetest-server.nix
   ./services/games/openarena.nix
@@ -449,8 +450,6 @@
   ./services/misc/devmon.nix
   ./services/misc/dictd.nix
   ./services/misc/dwm-status.nix
-  ./services/misc/dysnomia.nix
-  ./services/misc/disnix.nix
   ./services/misc/docker-registry.nix
   ./services/misc/domoticz.nix
   ./services/misc/errbot.nix
@@ -726,6 +725,7 @@
   ./services/networking/owamp.nix
   ./services/networking/pdnsd.nix
   ./services/networking/pixiecore.nix
+  ./services/networking/pleroma.nix
   ./services/networking/polipo.nix
   ./services/networking/powerdns.nix
   ./services/networking/pdns-recursor.nix

@@ -1050,6 +1050,8 @@ in {
 
   brotlipy = callPackage ../development/python-modules/brotlipy { };
 
+  brottsplatskartan = callPackage ../development/python-modules/brottsplatskartan { };
+
   browser-cookie3 = callPackage ../development/python-modules/browser-cookie3 { };
 
   browsermob-proxy = disabledIf isPy3k (callPackage ../development/python-modules/browsermob-proxy { });
@@ -1998,6 +2000,8 @@ in {
   easy-thumbnails = callPackage ../development/python-modules/easy-thumbnails { };
 
   easywatch = callPackage ../development/python-modules/easywatch { };
+
+  ec2instanceconnectcli = callPackage ../tools/virtualization/ec2instanceconnectcli { };
 
   eccodes = toPythonModule (pkgs.eccodes.override {
     enablePython = true;
@@ -4863,6 +4867,8 @@ in {
 
   pkuseg = callPackage ../development/python-modules/pkuseg { };
 
+  pynndescent = callPackage ../development/python-modules/pynndescent { };
+
   pysbd = callPackage ../development/python-modules/pysbd { };
 
   python-codon-tables = callPackage ../development/python-modules/python-codon-tables { };
@@ -5316,6 +5322,8 @@ in {
   pydy = callPackage ../development/python-modules/pydy { };
 
   pyechonest = callPackage ../development/python-modules/pyechonest { };
+
+  pyedimax = callPackage ../development/python-modules/pyedimax { };
 
   pyee = callPackage ../development/python-modules/pyee { };
 
@@ -6498,6 +6506,8 @@ in {
       };
     });
   in if isPy3k then pyxattr' else pyxattr_2;
+
+  pyworld = callPackage ../development/python-modules/pyworld { };
 
   pyx = callPackage ../development/python-modules/pyx { };
 

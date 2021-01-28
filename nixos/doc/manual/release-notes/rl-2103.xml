@@ -461,6 +461,11 @@ self: super:
       mouse section.
      </para>
    </listitem>
+   <listitem>
+    <para>
+     ALSA OSS emulation (<varname>sound.enableOSSEmulation</varname>) is now disabled by default.
+    </para>
+   </listitem>
   </itemizedlist>
  </section>
 
@@ -603,6 +608,15 @@ self: super:
      The <package>zookeeper</package> package does not provide
      <literal>zooInspector.sh</literal> anymore, as that "contrib" has
      been dropped from upstream releases.
+    </para>
+   </listitem>
+   <listitem>
+    <para>
+     In the ACME module, the data used to build the hash for the account
+     directory has changed to accomodate new features to reduce account
+     rate limit issues. This will trigger new account creation on the first
+     rebuild following this update. No issues are expected to arise from this,
+     thanks to the new account creation handling.
     </para>
    </listitem>
    <listitem>

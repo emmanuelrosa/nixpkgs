@@ -1,8 +1,4 @@
-{ lib, stdenv
-, fetchurl, autoreconfHook
-, zlib, pcre, w3m, man
-, mbedtls, brotli
-}:
+{ lib, stdenv, fetchurl, autoreconfHook, zlib, pcre, w3m, man }:
 
 stdenv.mkDerivation rec {
 
@@ -17,26 +13,18 @@ stdenv.mkDerivation rec {
   hardeningEnable = [ "pie" ];
 
   nativeBuildInputs = [ autoreconfHook w3m man ];
-  buildInputs = [ zlib pcre mbedtls brotli ];
+  buildInputs = [ zlib pcre ];
 
-  makeFlags = [ "STRIP=" ];
-  configureFlags = [
-    "--with-mbedtls"
-    "--with-brotli"
-    "--enable-external-filters"
-    "--enable-compression"
-  ];
+  makeFlags = [ "STRIP="];
 
   postInstall = ''
-    rm -r $out/var
+    rm -rf $out/var
   '';
 
   meta = with lib; {
     homepage = "https://www.privoxy.org/";
     description = "Non-caching web proxy with advanced filtering capabilities";
-    # When linked with mbedtls, the license becomes GPLv3 (or later), otherwise
-    # GPLv2 (or later). See https://www.privoxy.org/user-manual/copyright.html
-    license = licenses.gpl3Plus;
+    license = licenses.gpl2Plus;
     platforms = platforms.all;
     maintainers = [ maintainers.phreedom ];
   };

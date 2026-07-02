@@ -14,16 +14,16 @@
 
 buildGoModule (finalAttrs: {
   pname = "fence";
-  version = "0.1.58";
+  version = "0.1.61";
 
   src = fetchFromGitHub {
-    owner = "jy-tan";
+    owner = "fencesandbox";
     repo = "fence";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-ACe3N4bXYJW6QDQHtRChFWOTXTZTbEUbZ4d8cuFRqMY=";
+    hash = "sha256-/IVxTPgAzl+mX85M1IyD+21O8j/tIxt2a18TLtQz/zk=";
   };
 
-  vendorHash = "sha256-sEGLnYC4gMo5jPCZxBXra3pmRigaq4bDcVFd52ru7rQ=";
+  vendorHash = "sha256-aMxay3dow6mDKyv396R0j1GOKDmhkX4ebGmhca1B4WE=";
 
   __structuredAttrs = true;
 

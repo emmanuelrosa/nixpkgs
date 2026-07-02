@@ -3,13 +3,11 @@
   stdenv,
   fetchFromGitHub,
   makeBinaryWrapper,
-  copyDesktopItems,
   electron_41,
-  nodejs_24,
-  pnpm_10_29_2,
+  nodejs-slim_24,
+  pnpm_10,
   fetchPnpmDeps,
   pnpmConfigHook,
-  makeDesktopItem,
   darwin,
   nix-update-script,
   _experimental-update-script-combinators,
@@ -21,8 +19,8 @@
 }:
 
 let
-  nodejs = nodejs_24;
-  pnpm = pnpm_10_29_2.override { inherit nodejs; };
+  nodejs-slim = nodejs-slim_24;
+  pnpm = pnpm_10.override { inherit nodejs-slim; };
   electron = electron_41;
   appName = "Podman Desktop";
 in
@@ -91,12 +89,10 @@ stdenv.mkDerivation (finalAttrs: {
 
   nativeBuildInputs = [
     makeBinaryWrapper
-    nodejs
+    nodejs-slim
+    nodejs-slim.npm
     pnpm
     pnpmConfigHook
-  ]
-  ++ lib.optionals (!stdenv.hostPlatform.isDarwin) [
-    copyDesktopItems
   ]
   ++ lib.optionals stdenv.hostPlatform.isDarwin [
     darwin.autoSignDarwinBinariesHook
@@ -146,6 +142,13 @@ stdenv.mkDerivation (finalAttrs: {
 
         install -Dm644 buildResources/icon.svg "$out/share/icons/hicolor/scalable/apps/podman-desktop.svg"
 
+        # Derive the .desktop entry from upstream to keep it aligned and avoid regressions.
+        install -Dm644 .flatpak.desktop "$out/share/applications/podman-desktop.desktop"
+        substituteInPlace "$out/share/applications/podman-desktop.desktop" \
+          --replace-fail 'Exec=run.sh %U' 'Exec=podman-desktop %U' \
+          --replace-fail 'Icon=io.podman_desktop.PodmanDesktop' 'Icon=podman-desktop'
+        sed -i '/^X-Flatpak=/d' "$out/share/applications/podman-desktop.desktop"
+
         makeWrapper '${electron}/bin/electron' "$out/bin/podman-desktop" \
           --add-flags "$out/share/lib/podman-desktop/resources/app.asar" \
           --set XDG_SESSION_TYPE 'x11' \
@@ -157,20 +160,6 @@ stdenv.mkDerivation (finalAttrs: {
         runHook postInstall
       ''
     );
-
-  # see: https://github.com/podman-desktop/podman-desktop/blob/main/.flatpak.desktop
-  desktopItems = [
-    (makeDesktopItem {
-      name = "podman-desktop";
-      exec = "podman-desktop %U";
-      icon = "podman-desktop";
-      desktopName = appName;
-      genericName = "Desktop client for podman";
-      comment = finalAttrs.meta.description;
-      categories = [ "Utility" ];
-      startupWMClass = appName;
-    })
-  ];
 
   meta = {
     description = "Graphical tool for developing on containers and Kubernetes";

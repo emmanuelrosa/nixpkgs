@@ -12,7 +12,7 @@
 
 buildNpmPackage (finalAttrs: {
   pname = "matterjs-server";
-  version = "0.7.1";
+  version = "1.1.2";
   __structuredAttrs = true;
   strictDeps = true;
 
@@ -20,10 +20,10 @@ buildNpmPackage (finalAttrs: {
     owner = "matter-js";
     repo = "matterjs-server";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-iWFhpPeqY3RVfIrZa+Y2KmwWIZtMtj8EjwjoWYaA/Ao=";
+    hash = "sha256-+ICWKZAcKwfd72eWUwmM7XmCwC4F6P+o1JsHNK2+ROE=";
   };
 
-  npmDepsHash = "sha256-ZjznhmsLavnLsNHNzH9IlZdLRMYpbLKz1q2O9A/ut+Y=";
+  npmDepsHash = "sha256-L1G8/Y23deIjA4azMFLn+ZS95sKoRPSR1O7R8kZF5MU=";
 
   nativeBuildInputs = [
     makeBinaryWrapper
@@ -31,6 +31,8 @@ buildNpmPackage (finalAttrs: {
   ];
 
   buildInputs = [ udev ];
+
+  env.CXXFLAGS = "-std=c++20";
 
   preBuild = "npm run version -- --apply";
 
@@ -70,7 +72,10 @@ buildNpmPackage (finalAttrs: {
     homepage = "https://github.com/matter-js/matterjs-server";
     changelog = "https://github.com/matter-js/matterjs-server/blob/${finalAttrs.src.rev}/CHANGELOG.md";
     license = lib.licenses.asl20;
-    maintainers = with lib.maintainers; [ kranzes ];
+    maintainers = with lib.maintainers; [
+      kranzes
+      marie
+    ];
     mainProgram = "matterjs-server";
     platforms = lib.platforms.linux;
   };
